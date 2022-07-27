@@ -16,15 +16,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.1",
-<<<<<<< HEAD
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "redux-wrapper": "^0.0.1",
-=======
-    "react-icons": "^4.4.0",
->>>>>>> 180090501cb765fb69a17dd078339318686f5089
     "sweetalert2": "^11.4.23",
     "swr": "^1.3.0"
   },

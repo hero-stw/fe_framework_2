@@ -1,23 +1,14 @@
 import Header from '@/components/Header'
 import type { NextPage } from 'next'
-<<<<<<< HEAD
-import Count from './test/count'
-
-=======
 import style from "@/styles/Home.module.css";
 import Footer from '@/components/Footer';
 import Calculation from '@/components/Calculator';
 import LeaderBoard from '@/components/Leaderboard';
 import CalculatorHeader from '@/components/Calculator_header';
->>>>>>> 180090501cb765fb69a17dd078339318686f5089
 const Home: NextPage = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-      <Count />
-    </div>
-=======
       <Header></Header>
       <div className='flex px-2 py-10'>
         <Calculation></Calculation>
@@ -94,7 +85,6 @@ const Home: NextPage = () => {
         </div>
       </div>
     </div >
->>>>>>> 180090501cb765fb69a17dd078339318686f5089
   )
 }
 
