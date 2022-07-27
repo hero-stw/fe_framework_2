@@ -10,11 +10,11 @@ export const random = (max: number, min: number) => {
 // export const generate = (n: number) => {
 //     const add = 1;
 //     let max = 9 - add;
-  
+
 //     if (n > max) {
 //       return generate(max) + generate(n - max);
 //     }
-  
+
 //     max = Math.pow(10, n + add);
 //     const min = max / 10; // Math.pow(10, n) basically
 //     const number = Math.floor(Math.random() * (max - min + 1)) + min;
