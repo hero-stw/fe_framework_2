@@ -1,3 +1,4 @@
+
 import Header from '@/components/Header'
 import type { NextPage } from 'next'
 import style from "@/styles/Home.module.css";
@@ -5,7 +6,12 @@ import Footer from '@/components/Footer';
 import Calculation from '@/components/Calculator';
 import LeaderBoard from '@/components/Leaderboard';
 import CalculatorHeader from '@/components/Calculator_header';
+
+import type { NextPage } from "next";
+
+
 const Home: NextPage = () => {
+
   return (
     <div>
       <Header></Header>
@@ -87,4 +93,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;
