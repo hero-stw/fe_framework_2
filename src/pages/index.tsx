@@ -6,6 +6,7 @@ import Calculation from '@/components/Calculator';
 import LeaderBoard from '@/components/Leaderboard';
 import CalculatorHeader from '@/components/Calculator_header';
 const Home: NextPage = () => {
+
   return (
     <div>
       <Header></Header>
@@ -87,4 +88,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;
