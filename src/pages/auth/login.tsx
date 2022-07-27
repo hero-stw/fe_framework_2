@@ -10,11 +10,8 @@ type typeRegister = {
 }
 
 const Login = (props: Props) => {
-
   const[meraki,setMeraki] = useState(false);
-
   const {register,handleSubmit,formState:{errors}} = useForm<typeRegister>();
-
   const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
     console.log(value);
     if(value){

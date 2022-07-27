@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49bb0d20-fba9-486d-90cb-6b75fa18ad5f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    <list default="true" id="a5cb9aed-2f5e-4a7f-bf93-be36154efe0f" name="Changes" comment="Merge to main">
+      <change beforePath="$PROJECT_DIR$/src/pages/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/login.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
