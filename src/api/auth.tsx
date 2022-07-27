@@ -8,6 +8,6 @@ export const signin = (user: any) => {
     return instance.post('/login', user)
 }
 
-export const list = (url: string) => {
+export const listUsers = (url: string) => {
     return instance.get(url)
 }

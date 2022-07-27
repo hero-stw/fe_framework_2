@@ -7,7 +7,6 @@ import Calculation from '@/components/Calculator';
 import LeaderBoard from '@/components/Leaderboard';
 import CalculatorHeader from '@/components/Calculator_header';
 
-import type { NextPage } from "next";
 
 
 const Home: NextPage = () => {

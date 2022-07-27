@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import {useForm, SubmitHandler} from "react-hook-form"
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import {useAuth} from "../../hooks/auth";
 
 type Props = {}
 
 type typeRegister = {
-    name:string,
+    username:string,
     email:string,
     password:string
 }
@@ -19,9 +20,12 @@ const router = useRouter()
 
 const {register,handleSubmit,formState:{errors}} = useForm<typeRegister>();
 
-const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
+const { UseSignup } = useAuth();
+
+const onSubmit:SubmitHandler<typeRegister> = async (value:any) =>{
     console.log(value);
     if(value){
+        await UseSignup(value)
         setMeraki(true)
         setTimeout(()=>{
             setMeraki(false)
@@ -31,7 +35,7 @@ const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
 }
 
   return (
-    <div className='w-full relative bg-[#1F2937] pt-10' style={{height:'700px'}}>
+    <div className='w-full relative bg-[#5796de] pt-10' style={{height:'700px'}}>
         {meraki ? 
         <div className="flex right-2 absolute w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex items-center justify-center w-12 bg-emerald-500">
@@ -48,16 +52,16 @@ const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
         </div>
         </div>
          : ""}
-        <div className="flex flex-col max-w-md p-6 py-64 rounded-md sm:p-10 bg-gray-900 text-gray-100 m-auto">
+        <div className="flex flex-col max-w-md p-6 py-64 rounded-md sm:p-10 bg-white m-auto register">
             <div className="mb-8 text-center">
-                <h1 className="my-3 text-4xl font-bold">Sign up</h1>
+                <h1 className="my-3 text-4xl font-bold text-blue-500">Sign up</h1>
                 <p className="text-sm text-gray-400">Sign up to access your account</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 ng-untouched ng-pristine ng-valid">
                 <div className="space-y-4">
                     <div>
                         <label htmlFor="username" className="block mb-2 text-sm">Username</label>
-                        <input type="text" id="username" {...register('name', 
+                        <input type="text" id="username" {...register('username', 
                         {
                             required:"Name cannot be blank !", 
                             minLength: {
@@ -68,8 +72,8 @@ const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
                                 value:30,
                                 message:"Name cannot be more than 30 characters !"
                             }
-                            })} className="w-full px-3 py-2 border rounded-md border-gray-700 bg-gray-900 text-gray-100" />
-                        <span className='text-red-500'>{errors.name?.message}</span>
+                            })} className="w-full px-3 py-2 border rounded-md border-gray-400 outline-none" />
+                        <span className='text-red-500'>{errors.username?.message}</span>
                     </div>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm">Email address</label>
@@ -80,7 +84,7 @@ const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
                                 value:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                 message:"Your email is not in the correct format !"
                             }
-                        })} className="w-full px-3 py-2 border rounded-md border-gray-700 bg-gray-900 text-gray-100" />
+                        })} className="w-full px-3 py-2 border rounded-md border-gray-400 outline-none" />
                         <span className='text-red-500'>{errors.email?.message}</span>
                     </div>
                     <div>
@@ -93,16 +97,16 @@ const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
                                 value:3,
                                 message:"Password should not be less than 3 characters !"
                             },
-                            })} className="w-full px-3 py-2 border rounded-md border-gray-700 bg-gray-900 text-gray-100" />
+                            })} className="w-full px-3 py-2 border rounded-md border-gray-400 outline-none" />
                         <span className='text-red-500'>{errors.password?.message}</span>
                     </div>
                 </div>
                 <div className="space-y-2">
                     <div>
-                        <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-violet-400 text-gray-900">Sign up</button>
+                        <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-[#fc0]">Sign up</button>
                     </div>
-                    <p className="px-6 text-sm text-center text-gray-400">Do you already have an account ?
-                        <span className="hover:underline text-violet-400"> <Link href="/auth/login">Signin</Link></span>.
+                    <p className="px-6 text-sm text-center">Do you already have an account ?
+                        <span className="hover:underline text-red-500"> <Link href="/auth/login">Signin</Link></span>.
                     </p>
                 </div>
             </form>

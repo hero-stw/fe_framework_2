@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Link from "next/link";
+import {useAuth} from "../../hooks/auth";
 
 type Props = {}
 
@@ -15,10 +16,15 @@ const Login = (props: Props) => {
 
   const {register,handleSubmit,formState:{errors}} = useForm<typeRegister>();
 
-  const onSubmit:SubmitHandler<typeRegister> = async (value) =>{
-    console.log(value);
+  const { UseSignin } = useAuth();
+
+  const onSubmit:SubmitHandler<typeRegister> = async (value:any) =>{
     if(value){
         setMeraki(true);
+        
+        var user = await UseSignin(value);
+        
+        localStorage.setItem('user',JSON.stringify(user));
         setTimeout(()=> {
             setMeraki(false);
         },1000)
@@ -26,7 +32,7 @@ const Login = (props: Props) => {
   }
 
   return (
-    <div className='w-full bg-[#1F2937] pt-10' style={{height:'650px'}}>
+    <div className='w-full bg-[#5796de] pt-10' style={{height:'650px'}}>
         {meraki ? 
         <div className="flex right-2 absolute w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex items-center justify-center w-12 bg-emerald-500">
@@ -43,9 +49,9 @@ const Login = (props: Props) => {
         </div>
         </div>
          : ""}
-        <div className="flex flex-col max-w-md p-6 py-64 rounded-md sm:p-10 bg-gray-900 text-gray-100 m-auto">
+        <div className="flex flex-col max-w-md p-6 py-64 rounded-md sm:p-10 bg-white m-auto">
             <div className="mb-8 text-center">
-                <h1 className="my-3 text-4xl font-bold">Sign in</h1>
+                <h1 className="my-3 text-4xl font-bold text-blue-500">Sign in</h1>
                 <p className="text-sm text-gray-400">Sign in to access your account</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 ng-untouched ng-pristine ng-valid">
@@ -60,7 +66,7 @@ const Login = (props: Props) => {
                                 message:"Your email is not in the correct format !"
                             }
                         })} 
-                        id="email" className="w-full px-3 py-2 border rounded-md border-gray-700 bg-gray-900 text-gray-100" />
+                        id="email" className="w-full px-3 py-2 border rounded-md border-gray-400 outline-none" />
                         <span className='text-red-500'>{errors.email?.message}</span>
                     </div>
                     <div>
@@ -74,16 +80,16 @@ const Login = (props: Props) => {
                                 message:"Password cannot be blank !"
                             }
                         })} 
-                        className="w-full px-3 py-2 border rounded-md border-gray-700 bg-gray-900 text-gray-100" />
+                        className="w-full px-3 py-2 border rounded-md border-gray-400 outline-none" />
                         <span className='text-red-500'>{errors.password?.message}</span>
                     </div>
                 </div>
                 <div className="space-y-2">
                     <div>
-                        <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-violet-400 text-gray-900">Sign in</button>
+                        <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-[#fc0] text-gray-900">Sign in</button>
                     </div>
-                    <p className="px-6 text-sm text-center text-gray-400">Do not have an account ?
-                    <span className="hover:underline text-violet-400"> <Link href="/auth/register">Signup</Link></span>.
+                    <p className="px-6 text-sm text-center">Do not have an account ?
+                    <span className="hover:underline text-blue-900"> <Link href="/auth/register">Signup</Link></span>.
                     </p>
                 </div>
             </form>

@@ -1,35 +1,26 @@
-import { list, signup, signin } from "@/api/auth";
+import { listUsers, signup, signin } from "@/api/auth";
 import useSWR, {useSWRConfig} from "swr";
 
 export const useAuth = () =>{
-    const fetcher = async (url: string) => {
-        const { data } = await list(url)
-        return data
-    };
-
-    const { data, error} = useSWR("/users", fetcher)
-    const { mutate } = useSWRConfig();
+    const {data,error, mutate} = useSWR("/users");
 
     // register
 
-    const useSignup = (data: any) => {
-        mutate("/users", async() => {
-            const { data: user } = await signup(data);
-            return [...data, user]
-        })
+    const UseSignup = async(user: any) => {
+        const newUser = await signup(user);
+        console.log(newUser);
+        mutate([...data, newUser]);
     }
     
-    const useSignin = (data: any) => {
-        mutate("/users", async() => {
-            const { data: user } = await signin(data);
-            return [...data, user]
-        })
+    const UseSignin = async(user: any) => {
+        const newUser = await signin(user);
+        return newUser
     }
 
     return {
         data,
         error,
-        useSignup,
-        useSignin
+        UseSignup,
+        UseSignin
     }
 }
