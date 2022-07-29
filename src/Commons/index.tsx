@@ -1,25 +1,26 @@
+
 export const random = (max: number, min: number) => {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// export const numLength = (min: number, max: number) => {
-//     var e = random(min, max);
-//     return generate(e);
-// }
+export const numLength = (min: number, max: number) => {
+    const e = random(min, max);
+    return generate(e);
+}
 
-// export const generate = (n: number) => {
-//     const add = 1;
-//     let max = 9 - add;
+export const generate = (n: number) => {
+    const add = 1;
+    let max = 9 - add;
 
-//     if (n > max) {
-//       return generate(max) + generate(n - max);
-//     }
+    if (n > max) {
+      return generate(max) + generate(n - max);
+    }
 
-//     max = Math.pow(10, n + add);
-//     const min = max / 10; // Math.pow(10, n) basically
-//     const number = Math.floor(Math.random() * (max - min + 1)) + min;
-//     return number;
-// }
+    max = Math.pow(10, n + add);
+    const min = max / 10; // Math.pow(10, n) basically
+    const number = Math.floor(Math.random() * (max - min + 1)) + min;
+    return number;
+}
 
 export const l100 = (n: number) => {
   if (n > 10000) return ">10000";
@@ -35,4 +36,17 @@ export const roundTo2 = (num: number) => {
 // thêm dấu cách đơn vị
 export const numDot = (x: number) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const pad0 = (value: any, count: any) => {
+  var result = value.toString();
+  for (; result.length < count; --count) result = "0" + result;
+  return result;
+}
+
+export const msToHMS =(ms: any) => {
+  let sec = ms / 100;
+  sec = sec % 100;
+  let mili = ms - Math.floor(sec) * 100;
+  return Math.floor(sec) + "s " + Math.floor(mili);
 }
