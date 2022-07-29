@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a5cb9aed-2f5e-4a7f-bf93-be36154efe0f" name="Changes" comment="Merge to main">
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/login.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="a5cb9aed-2f5e-4a7f-bf93-be36154efe0f" name="Changes" comment="Merge to main" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +47,14 @@
       <workItem from="1658933613821" duration="41000" />
       <workItem from="1658935992918" duration="262000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge to main">
+      <created>1658936815417</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1658936815417</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -64,5 +70,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge to main" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge to main" />
   </component>
 </project>
