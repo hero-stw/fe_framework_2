@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Link from "next/link";
 import {useAuth} from "../../hooks/auth";
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '@/store/slice/userSlice';
 
 type Props = {}
 
@@ -17,6 +19,7 @@ const Login = (props: Props) => {
   const {register,handleSubmit,formState:{errors}} = useForm<typeRegister>();
 
   const { UseSignin } = useAuth();
+  const dispatch = useDispatch()
 
   const onSubmit:SubmitHandler<typeRegister> = async (value:any) =>{
     if(value){
@@ -25,6 +28,7 @@ const Login = (props: Props) => {
         var user = await UseSignin(value);
         
         localStorage.setItem('user',JSON.stringify(user));
+        dispatch(loginSuccess(user))
         setTimeout(()=> {
             setMeraki(false);
         },1000)
