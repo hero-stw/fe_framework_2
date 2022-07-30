@@ -1,16 +1,17 @@
+import { randomNumber } from '@/store/slice/numberSlice';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { increment } from '@/store/slice/counterSlice'
 
 type Props = {}
 
 const Count = (props: Props) => {
     const dispatch = useDispatch()
-    const count = useSelector((state: any) => state.count.count)
+    const a = useSelector((state: any) => state.number.a)
+    const b = useSelector((state: any) => state.number.b)
   return (
     <div>
-        <div>count: {count}</div>
-        <button onClick={() => dispatch(increment())}>add count</button>
+        <div>count: {a}+{b}</div>
+        <button onClick={() => dispatch(randomNumber())}>add count</button>
     </div>
   )
 }

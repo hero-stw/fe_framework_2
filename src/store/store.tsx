@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
-
-import lootReducer from "./reducers/index"
+import calculation from "./slice/calculationSlice";
+import number from "./slice/numberSlice";
 
 export const makeStore = () => (
     configureStore({
-        reducer: lootReducer
+        reducer: {
+            calculation: calculation,
+            number: number
+        }
     })
 )
 
