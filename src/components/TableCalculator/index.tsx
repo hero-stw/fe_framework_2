@@ -1,12 +1,10 @@
 import React from 'react'
-import CalculatorHeader from '../CalculatorHeader'
 
 type Props = {}
 
 const TableCalculator = (props: Props) => {
     return (
         <div>
-            <CalculatorHeader />
             <div className='calculation-table'>
                 <table className="table-auto w-full text-center m-auto border-none">
                     <thead>

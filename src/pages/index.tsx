@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import LeaderBoard from '@/components/Leaderboard';
 import Count from './test/count';
 import TableCalculator from '@/components/TableCalculator';
+import CalculatorHeader from '@/components/CalculatorHeader';
 const Home: NextPage = () => {
 
   return (
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
       <div className='flex px-2 py-10'>
         {/* Table Calculation */}
         <div className='w-full px-2'>
+          <CalculatorHeader />
           <TableCalculator />
           <Footer />
         </div>
