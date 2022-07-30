@@ -11,7 +11,7 @@ const initialState: IProductState = {
 };
 
 export const numberSlice = createSlice({
-    name: "count",
+    name: "number",
     initialState,
     reducers: {
         randomNumber: (state) => {
