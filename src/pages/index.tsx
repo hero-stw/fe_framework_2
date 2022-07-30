@@ -5,12 +5,14 @@ import Footer from '@/components/Footer';
 import Calculation from '@/components/Calculator';
 import LeaderBoard from '@/components/Leaderboard';
 import CalculatorHeader from '@/components/Calculator_header';
+import Count from './test/count';
 const Home: NextPage = () => {
 
   return (
     <div>
       <Header></Header>
       <div className='flex px-2 py-10'>
+        <Count />
         <Calculation></Calculation>
         {/* Table Calculation */}
         <div className='w-full px-2'>

@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import {SWRConfig} from "swr";
 import instance from '@/api/instance';
+import { wrapper } from '@/store/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return(
@@ -11,4 +12,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp) 
