@@ -1,12 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from "@/components/Leaderboard/Leaderboard.module.css"
 import Image from 'next/image';
 import goldmedal from "@/img/gold-medal.png";
 import silvermedal from "@/img/silver-medal.png";
 import bronzemedal from "@/img/bronze-medal.png";
+import axios from 'axios';
 type Props = {}
 
 const LeaderBoard = (props: Props) => {
+
+    const[users,setUsers] = useState([]);
+
+    const sortUsers = (index) =>{
+
+        // if(index == 0) {
+        //     return <Image src={goldmedal}></Image>
+        // }else if(index == 1){
+        //     return <Image src={goldmedal}></Image>
+        // }else if(index == 2){
+        //     return <Image src={bronzemedal}></Image>
+        // }else{
+        //     return ++index;
+        // }
+
+        switch (index) {
+            case 0:
+                return <Image src={goldmedal}></Image>
+            case 1:
+                return <Image src={silvermedal}></Image>
+            case 2:
+                return <Image src={bronzemedal}></Image>
+            default:
+                return ++index;
+        }
+    }
+
+    useEffect(() =>{
+        const handleUsers = async () =>{
+            const {data} = await axios.get("https://62d4ee22cd960e45d45dc40a.mockapi.io/users");
+            setUsers(data);
+        }
+        handleUsers();
+    },[])
+
     return (
         <div>
             <div className={style.result}>
@@ -19,78 +55,32 @@ const LeaderBoard = (props: Props) => {
                         <option value="2">Additions (+)</option>
                     </select>
                 </div>
-                <div className={style.result__value}>
-                    <div className="">
-                        <Image src={goldmedal}></Image>
-                    </div>
-                    <div className="-mt-1">
-                        <div className={style.result__username}>
-                            Player
+
+                {
+                    users.map((item,index) => (
+                        <div key={item.id} className={style.result__value}>
+                        <div className="">
+                            {
+                                sortUsers(index)
+                            }
                         </div>
-                        <div className={style.result__stat}>
-                            <div className={style.result__percent}>
-                                0%
+                        <div className="-mt-1">
+                            <div className={style.result__username}>
+                                {item.name}
                             </div>
-                            <div className={style.result__time}>
-                                00s 00
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={style.result__value}>
-                    <div className="">
-                        <Image src={silvermedal}></Image>
-                    </div>
-                    <div className="-mt-1">
-                        <div className={style.result__username}>
-                            Player
-                        </div>
-                        <div className={style.result__stat}>
-                            <div className={style.result__percent}>
-                                0%
-                            </div>
-                            <div className={style.result__time}>
-                                00s 00
+                            <div className={style.result__stat}>
+                                <div className={style.result__percent}>
+                                    {item.percent}
+                                </div>
+                                <div className={style.result__time}>
+                                    {item.time}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className={style.result__value}>
-                    <div className={style.result__icon}>
-                        <Image src={bronzemedal}></Image>
-                    </div>
-                    <div className="-mt-1">
-                        <div className={style.result__username}>
-                            Player
-                        </div>
-                        <div className={style.result__stat}>
-                            <div className={style.result__percent}>
-                                0%
-                            </div>
-                            <div className={style.result__time}>
-                                00s 00
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={style.result__value}>
-                    <div className={style.result__rank}>
-                        <span>4</span>
-                    </div>
-                    <div className="-mt-1">
-                        <div className={style.result__username}>
-                            Player
-                        </div>
-                        <div className={style.result__stat}>
-                            <div className={style.result__percent}>
-                                0%
-                            </div>
-                            <div className={style.result__time}>
-                                00s 00
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    ))
+                }
+
             </div>
         </div>
     )
