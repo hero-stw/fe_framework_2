@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IProductState {
     calculation: string;
+    calculations: any[]
 }
 const initialState: IProductState = {
-    calculation: ''
+    calculation: '',
+    calculations: []
 };
 
 const equation = ["+", "-", "×", "÷"];
@@ -15,10 +17,13 @@ export const calculationSlice = createSlice({
     reducers: {
         randomCalculation: (state) => {
             state.calculation = equation[random(0, 4)]
+        },
+        saveCalculations: (state, actions) => {
+            state.calculations.push(actions.payload)
         }
     }
 })
 
-export const {randomCalculation} = calculationSlice.actions
+export const { randomCalculation, saveCalculations } = calculationSlice.actions
 
 export default calculationSlice.reducer
