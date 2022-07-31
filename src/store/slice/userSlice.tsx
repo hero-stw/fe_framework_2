@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface IProductState {
+interface IUserState {
     token: string;
 }
-const initialState: IProductState = {
+const initialState: IUserState = {
     token: null
 };
 export const calculationSlice = createSlice({
