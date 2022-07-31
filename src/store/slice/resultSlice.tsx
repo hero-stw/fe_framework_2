@@ -2,16 +2,16 @@ import { random } from "@/Commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IResultState {
-    correctResult: any[];
-    marginOfError: any[];
-    duration: any[];
-    inputValue: any[]
+    correctResult: string;
+    marginOfError: string;
+    duration: string;
+    inputValue: string
 }
 const initialState: IResultState = {
-    correctResult: [],
-    marginOfError: [],
-    duration:[],
-    inputValue:[]
+    correctResult: '',
+    marginOfError: '',
+    duration:'',
+    inputValue:''
 };
 
 export const resultSlice = createSlice({
@@ -28,7 +28,7 @@ export const resultSlice = createSlice({
             state.duration = actions.payload
         },
         saveInputValue: (state, actions) => {
-            state.inputValue.push(actions.payload)
+            state.inputValue = actions.payload
         }
     }
 })
