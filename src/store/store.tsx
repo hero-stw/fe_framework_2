@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import calculation from "./slice/calculationSlice";
 import number from "./slice/numberSlice";
-import result from "./slice/result";
+import result from "./slice/resultSlice";
 import user from "./slice/userSlice";
 
 const persistConfig ={

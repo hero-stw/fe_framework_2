@@ -1,14 +1,14 @@
 import { numLength, random } from "@/Commons";
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IProductState {
+interface ICalculationState {
     calculation: string;
     calculations: any[];
     Operations: string;
     a: number;
     b: number
 }
-const initialState: IProductState = {
+const initialState: ICalculationState = {
     calculation: '',
     calculations: [],
     Operations: '',
@@ -27,13 +27,10 @@ export const calculationSlice = createSlice({
             state.b = numLength(2, 8),
             state.Operations = state.a + " " + state.calculation + " " + state.b + " = ?";
             state.calculations.push(state.Operations)
-        },
-        saveCalculations: (state) => {
-            state.calculations.push(state.Operations)
         }
     }
 })
 
-export const { randomCalculation, saveCalculations } = calculationSlice.actions
+export const { randomCalculation } = calculationSlice.actions
 
 export default calculationSlice.reducer

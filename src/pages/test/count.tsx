@@ -1,35 +1,32 @@
-import { randomCalculation, saveCalculations } from '@/store/slice/calculationSlice';
-import { randomNumber } from '@/store/slice/numberSlice';
+import { randomCalculation } from '@/store/slice/calculationSlice';
+import { saveInputValue } from '@/store/slice/resultSlice';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 type Props = {}
 
 const Count = (props: Props) => {
-    const dispatch = useDispatch()
-    const a = useSelector((state: any) => state.number.a)
-    const b = useSelector((state: any) => state.number.b)
-    const ch = useSelector((state: any) => state.calculation.calculation)
+    const value = useSelector((state: any) => state.result.inputValue)
+    const dispatch = useDispatch();
+    const [test1, setTest1] = useState<string>('')
     const phep = useSelector((state: any) => state.calculation.calculations)
-    console.log(phep);
+
+    const test = (event) =>{
+      if(event.key === "Enter"){
+        dispatch(saveInputValue(test1))
+      }
+    }
+    console.log(value);
     
-    // useEffect(() => {
-    //   const tinh = (a:number,b: number,ch: number) => {
-    //     const pheptinh = a + " " + ch + " " + b + " = ?";
-    //     //dispatch(saveCalculations(pheptinh))
-    //   }
-    //   if(a!= 0){
-    //     tinh(a,b,ch)
-    //   }
-      
-    // },[a,b,ch])
   return (
     <div>
         <div>
           {
             phep.map((data: any) => 
-              
-              <div>{data}</div>
+              <>
+                <div>{data}</div>
+                <input type="text" onKeyDown={test} onInput={(event) => setTest1(event.target.value)} />
+              </>
             )
           }
         </div>
