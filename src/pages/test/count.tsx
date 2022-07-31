@@ -13,16 +13,16 @@ const Count = (props: Props) => {
     const phep = useSelector((state: any) => state.calculation.calculations)
     console.log(phep);
     
-    useEffect(() => {
-      const tinh = (a:number,b: number,ch: number) => {
-        const pheptinh = a + " " + ch + " " + b + " = ?";
-        dispatch(saveCalculations(pheptinh))
-      }
-      if(a!= 0){
-        tinh(a,b,ch)
-      }
+    // useEffect(() => {
+    //   const tinh = (a:number,b: number,ch: number) => {
+    //     const pheptinh = a + " " + ch + " " + b + " = ?";
+    //     //dispatch(saveCalculations(pheptinh))
+    //   }
+    //   if(a!= 0){
+    //     tinh(a,b,ch)
+    //   }
       
-    },[a,b,ch])
+    // },[a,b,ch])
   return (
     <div>
         <div>
@@ -33,7 +33,7 @@ const Count = (props: Props) => {
             )
           }
         </div>
-        <button onClick={() => {dispatch(randomNumber()), dispatch(randomCalculation())}}>add count</button>
+        <button onClick={() => {dispatch(randomCalculation())}}>add count</button>
     </div>
   )
 }
