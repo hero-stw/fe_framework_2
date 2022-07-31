@@ -10,6 +10,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
+      <Count />
       <Header />
       <div className='flex px-2 py-10'>
         {/* Table Calculation */}

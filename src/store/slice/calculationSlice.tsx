@@ -1,25 +1,35 @@
-import { random } from "@/Commons";
+import { numLength, random } from "@/Commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IProductState {
     calculation: string;
-    calculations: any[]
+    calculations: any[];
+    Operations: string;
+    a: number;
+    b: number
 }
 const initialState: IProductState = {
     calculation: '',
-    calculations: []
+    calculations: [],
+    Operations: '',
+    a: 0,
+    b: 0
 };
 
 const equation = ["+", "-", "×", "÷"];
 export const calculationSlice = createSlice({
-    name: "count",
+    name: "calculation",
     initialState,
     reducers: {
         randomCalculation: (state) => {
-            state.calculation = equation[random(0, 4)]
+            state.calculation = equation[random(0, 4)],
+            state.a = numLength(3, 9),
+            state.b = numLength(2, 8),
+            state.Operations = state.a + " " + state.calculation + " " + state.b + " = ?";
+            state.calculations.push(state.Operations)
         },
-        saveCalculations: (state, actions) => {
-            state.calculations.push(actions.payload)
+        saveCalculations: (state) => {
+            state.calculations.push(state.Operations)
         }
     }
 })
