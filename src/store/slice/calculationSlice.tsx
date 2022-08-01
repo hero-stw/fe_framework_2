@@ -1,4 +1,4 @@
-import { numLength, random } from "@/Commons";
+import { numLength, random } from "@/commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ICalculationState {
@@ -20,6 +20,8 @@ const equation = ["+", "-", "×", "÷"];
 export const calculationSlice = createSlice({
     name: "calculation",
     initialState,
+    // trong reducer chưa các actions mà cần dùng
+    // tham số state = initialState
     reducers: {
         randomCalculation: (state) => {
             state.calculation = equation[random(0, 4)],

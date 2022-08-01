@@ -12,6 +12,9 @@ const persistConfig ={
     whitelist: ["user"]
 }
 
+// configureStore tạo store
+// combineReducers quản lý ruducer
+
 const rootReducer = combineReducers({
     calculation: calculation,
     total: total,

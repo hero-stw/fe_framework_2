@@ -1,4 +1,4 @@
-import { numLength, random } from "@/Commons";
+import { numLength, random } from "@/commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface TypeTotal {

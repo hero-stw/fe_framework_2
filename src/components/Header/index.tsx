@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import TableCalculator from '../TableCalculator'
 
 type Props = {}
 
