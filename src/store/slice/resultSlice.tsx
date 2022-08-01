@@ -1,4 +1,4 @@
-import { random } from "@/Commons";
+import { random } from "@/commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IResultState {
