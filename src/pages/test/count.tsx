@@ -34,8 +34,6 @@ const Count = (props: Props) => {
         dispatch(saveInputValue(''))
       }
     }, [value])
-    console.log(value);
-    
   return (
     <div>
         <div>

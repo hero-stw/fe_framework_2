@@ -6,6 +6,7 @@ import TableCalculator from '@/components/TableCalculator';
 import CalculatorHeader from '@/components/CalculatorHeader';
 import { useState } from 'react';
 import Count from './test/count';
+
 const Home: NextPage = () => {
 
   const[calculator,setCalculator] = useState('');

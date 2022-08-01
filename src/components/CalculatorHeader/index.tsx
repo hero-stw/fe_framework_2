@@ -23,9 +23,9 @@ const CalculatorHeader = ({setCalculator,setPercent,percent}: Props) => {
 
     const calculation = useSelector((state:any) => state.calculation.calculation);
 
-    const a = useSelector((state:any) => state.number.a)
+    const a = useSelector((state:any) => state.calculation.a)
 
-    const b = useSelector((state:any) => state.number.b)
+    const b = useSelector((state:any) => state.calculation.b)
 
     const showCalculator = (a:any,b:any,calculation:any) => {
         return a + " " + calculation + " " + b + " = ?";

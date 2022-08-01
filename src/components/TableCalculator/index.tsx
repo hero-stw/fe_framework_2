@@ -4,6 +4,7 @@ import { roundTo2,numDot,l100 } from "../../commons/index";
 import { randomCalculation } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { saveInputValue } from '@/store/slice/resultSlice';
+import { saveTotal } from '@/store/slice/totalSlice';
 
 type Props = {
     calculator:any,
@@ -15,6 +16,8 @@ const TableCalculator = ({calculator,percent}: Props) => {
     const[calculation,setCalculation] = useState([]);
 
     const calculationList = useSelector((state:any) => state.calculation.calculations);
+
+    const Operations = useSelector((state:any) => state.calculation.Operations);
 
     useEffect(() =>{
         setCalculation(calculationList);
@@ -29,16 +32,17 @@ const TableCalculator = ({calculator,percent}: Props) => {
     // Phép tính
     const s = useSelector((state:any) => state.calculation.calculation)
     
-    const a = useSelector((state:any) => state.number.a);
+    const a = useSelector((state:any) => state.calculation.a);
 
-    const b = useSelector((state:any) => state.number.b);
+    const b = useSelector((state:any) => state.calculation.b);
 
-    
+    const total = useSelector((state:any) => state.total.total);
+
     // input store
     const inputValue = useSelector((state:any) => state.result.inputValue)
 
     // Tính tổng hai số
-    const[sum,setSum] = useState<number>(0); 
+    const[sum, setSum] = useState<number>(0); 
     
     // Lưu phần trăm sai
     const[percentFalse,setPercentFalse] = useState<number>(0);
@@ -53,13 +57,14 @@ const TableCalculator = ({calculator,percent}: Props) => {
             setNotification(false)
         }
     }
-
+    
     const handleKeyDown = (event) =>{       
         if(event.key === 'Enter'){
             if(s == '+'){
                 numDot(input)
                 dispatch(saveInputValue(input))
-                const c = a + b
+                const c = a + b;
+                
                 setSum(c)
                 const savePercentage = Math.abs(input - c) / c * 100 
                 setPercentFalse(savePercentage) 
@@ -90,7 +95,7 @@ const TableCalculator = ({calculator,percent}: Props) => {
                 numDot(input)
                 const c = a * b
                 setSum(c)
-                const savePercentage = Math.abs(input - c) / c * 100 
+                const savePercentage = Math.abs(input - c) / c * 100
                 setPercentFalse((savePercentage))
                 checkPercentFalse(savePercentage,Number(percent))
                 dispatch(saveInputValue(input))
@@ -115,11 +120,23 @@ const TableCalculator = ({calculator,percent}: Props) => {
                     checkPercentFalse(savePercentage,Number(percent))
                 }
             }
+            
             dispatch(randomCalculation())
         }
     }
-    console.log(inputValue);
-    console.log(sum);
+    useEffect(() => {
+        if(input != 0){
+            dispatch(saveTotal({
+                calculator: Operations,
+                inputValue: input,
+                correctResult: sum,
+                marginOfError: percentFalse,
+                duration: 1
+            }))
+            setInput(0)
+        }
+    },[sum])
+
     const close = () =>{
         setNotification(false)
     }
@@ -165,10 +182,15 @@ const TableCalculator = ({calculator,percent}: Props) => {
                                     <p className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
                                 </td>
                                 <td className='w-48'>
-                                    <input type="text" value={input ? input : ""} onKeyDown={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
+                                    <input type="text" onKeyDown={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
                                 </td>
-                                <td>{sum == 0 ? null : numDot(sum)}</td>
-                                <td>{percentFalse == 0 ? "" : l100(roundTo2(percentFalse))}</td>
+                                {total.map((data: any) => (
+                                    item === data.calculator ? <>
+                                        <td className='' >{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
+                                        <td className='' >{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
+                                    </> : null
+                                ))}
+                                
                             </tr>
                             ))
                         }
