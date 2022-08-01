@@ -9,7 +9,6 @@ type Props = {}
 const Count = (props: Props) => {
     
     const dispatch = useDispatch();
-    const [test1, setTest1] = useState<string>('')
     const phep = useSelector((state: any) => state.calculation.calculations)
     const Operations = useSelector((state: any) => state.calculation.Operations)
     const value = useSelector((state: any) => state.result.inputValue)
@@ -19,7 +18,8 @@ const Count = (props: Props) => {
     const total = useSelector((state: any) => state.total.total)
     const test = (event) =>{
       if(event.key === "Enter"){
-        dispatch(saveInputValue(test1))
+        dispatch(saveInputValue(event.target.value))
+        dispatch(randomCalculation())
       }
     }
     useEffect(() => {
@@ -31,11 +31,10 @@ const Count = (props: Props) => {
           marginOfError: marginOfError,
           duration: duration
         }))
+        dispatch(saveInputValue(''))
       }
-      
     }, [value])
-    console.log(total);
-    
+    console.log(value);
     
   return (
     <div>
@@ -44,17 +43,18 @@ const Count = (props: Props) => {
             phep.map((data: any) => 
               <>
                 <div>{data}</div>
-                <input type="text" onKeyDown={test} onInput={(event) => setTest1(event.target.value)} />
+                <input type="text" onKeyDown={test}/>
+                {
+                  total.map((item: any) => (
+                    
+                      data === item.calculator ? <div>{item.inputValue}</div> : null
+                    
+                  ))
+                }
               </>
             )
           }
-          {
-            total.map((data: any) => 
-              <>
-                <div>{data.calculator}</div>
-              </>
-            )
-          }
+          
         </div>
         <button onClick={() => {dispatch(randomCalculation())}}>add count</button>
     </div>

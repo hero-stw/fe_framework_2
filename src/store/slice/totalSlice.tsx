@@ -11,10 +11,10 @@ interface TypeTotal {
     }
 }
 
-interface IProductState {
+interface ITotalState {
     total: TypeTotal[]
 }
-const initialState: IProductState = {
+const initialState: ITotalState = {
     total: []
 };
 
@@ -23,8 +23,6 @@ export const numberSlice = createSlice({
     initialState,
     reducers: {
         saveTotal: (state, actions) => {
-            console.log(actions.payload);
-            
             state.total.push(actions.payload)
         }
     }
