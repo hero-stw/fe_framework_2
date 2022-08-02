@@ -189,6 +189,45 @@ const TableCalculator = ({ percent }: Props) => {
                             </tbody>
                         </table>
                     </div>
+<<<<<<< Updated upstream
+=======
+                </div> :             
+            <div className='calculation-table'>
+                <table className="table-auto w-full text-center m-auto border-none">
+                    <thead>
+                        <tr>
+                            <th className='py-10' />
+                            <th className="">Operations</th>
+                            <th className="c3">Your Answer</th>
+                            <th>Correct Result</th>
+                            <th className="margin">Margin of Error</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            calculation.map((item,index) => (
+                            <tr key={index} className='relative'>
+                                <td className='px-2' >{index += 1 }</td>
+                                <td className='w-80 px-2 py-2'>
+                                    <p className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
+                                </td>
+                                <td className='w-48'>
+                                    <input type="text" value={input} onKeyUp={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
+                                </td>
+                                {total.map((data: any) => (
+                                    item === data.calculator? <>
+                                        <td className='absolute' style={{marginLeft:"88px",marginTop:"-40px"}}>{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
+                                        <td className='absolute' style={{marginLeft:"380px",marginTop:"-40px"}}>{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
+                                    </> : null
+                                ))}
+                            </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+>>>>>>> Stashed changes
             }
             <hr className='py-4' />
         </div>
