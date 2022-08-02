@@ -8,7 +8,7 @@ const Header = (props: Props) => {
     return (
         <div className='bg-[#4192EC] flex justify-between items-center px-20 py-2' >
             <div>
-                <Link href="/register"><a><img src="https://www.preplounge.com/assets/images/logo/header.png" width="200px" alt="" /></a></Link>
+                <Link href="/"><a><img src="https://www.preplounge.com/assets/images/logo/header.png" width="200px" alt="" /></a></Link>
             </div>
             <div className='flex justify-center items-center'>
                 <div className='text-white px-4 font-normal hover:underline'>
