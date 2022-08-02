@@ -12,10 +12,10 @@ const Header = (props: Props) => {
             </div>
             <div className='flex justify-center items-center'>
                 <div className='text-white px-4 font-normal hover:underline'>
-                    <Link href="/login">Login</Link>
+                    <Link href="/auth/login">Login</Link>
                 </div>
                 <div>
-                    <button className='h-8 bg-[#FECD00] px-11 rounded font-medium'><Link href="/register">Sign up for free</Link></button>
+                    <button className='h-8 bg-[#FECD00] px-11 rounded font-medium'><Link href="/auth/register">Sign up for free</Link></button>
                 </div>
             </div>
         </div>
