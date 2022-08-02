@@ -90,7 +90,7 @@ const TableCalculator = ({percent}: Props) => {
 
             if(s == '-'){
                 if(a < b){
-                    const c = a - b;
+                    const c = b- a;
                     logicCalculation(c)
                 }else{
                     const c = a - b

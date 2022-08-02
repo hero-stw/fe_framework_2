@@ -36,7 +36,7 @@ const Login = (props: Props) => {
   }
 
   return (
-    <div className='bg-[#5796de] pt-10 w-screen h-screen grid'>
+    <div className='w-screen grid place-center bg-[#5796de] pt-10 h-screen'>
         {meraki ? 
         <div className="flex right-2 absolute w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex items-center justify-center w-12 bg-emerald-500">

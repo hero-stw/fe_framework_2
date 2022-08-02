@@ -46,13 +46,14 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                     </div>
                 </div>
                 <div className={style.calculator__option}>
-
                     <div className={style.calculator__option__item}>
                         <h3 className="small-title">Caculation Type</h3>
                         <select name="" id="" className='outline-none'>
-                            <option className='outline-none px-2'>Basic</option>
-                            <option className='outline-none px-2'>Basic 2</option>
-                            <option className='outline-none px-2'>Basic 3</option>
+                        <option value="">Basic Operations (All)</option>  
+                        <option value="2">Additions (+)</option>
+                        <option value="3">Subtractions (-)</option>
+                        <option value="4">Multiplications (x)</option>
+                        <option value="5">Divisions (÷)</option>
                         </select>
                         <h3 className="small-title">Ceiling Margin of Error</h3>
                         <label htmlFor="addend" >

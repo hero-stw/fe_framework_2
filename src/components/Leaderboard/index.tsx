@@ -6,6 +6,7 @@ import { useRecords } from "../../hooks/records";
 import goldmedal from "@/img/gold-medal.png";
 import silvermedal from "@/img/silver-medal.png";
 import bronzemedal from "@/img/bronze-medal.png";
+import LeaderboardType from '../LeaderboardType';
 
 type Props = {}
 
@@ -67,10 +68,7 @@ const LeaderBoard = (props: Props) => {
                         Wall of fame
                     </div>
                     <div className={style.result__category}>
-                        <select name="" id="">
-                            <option value="1">Basic Operations</option>
-                            <option value="2">Additions (+)</option>
-                        </select>
+                        <LeaderboardType />
                     </div>
 
                     {
