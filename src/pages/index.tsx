@@ -19,8 +19,9 @@ const Home: NextPage = () => {
       <div className='flex px-2 py-10'>
         {/* Table Calculation */}
         <div className='w-full px-2'>
+          {/* Prop % */}
           <CalculatorHeader  calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent}/>
-          <TableCalculator calculator={calculator} percent={percent}/>
+          <TableCalculator percent={percent}/>
           <Footer />
         </div>
         {/* Ranking */}
