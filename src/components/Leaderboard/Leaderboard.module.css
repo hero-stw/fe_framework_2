@@ -71,3 +71,25 @@
     width: 22px;
     border-radius: 50%;
 }
+/* Icon */
+.nav__menu__icon {
+    position: absolute;
+    right: 0;
+    top: 4em;
+}
+.nav__menu__active{
+    right: 0;
+    display: flex;
+    justify-content: left;
+    position: relative;
+    transition: 2000ms;
+}
+.nav__menu{
+    width: 250px;
+    height: 100vh;
+    display: hidden;
+    justify-content: center;
+    position: absolute;
+    right: -50%;
+    transition: 1000ms;
+}
