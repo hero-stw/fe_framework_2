@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import style from "@/components/Leaderboard/Leaderboard.module.css"
+import { AiFillCloseCircle } from "react-icons/ai";
 import Image from 'next/image';
 import { useRecords } from "../../hooks/records";
 import goldmedal from "@/img/gold-medal.png";
@@ -9,10 +10,9 @@ import bronzemedal from "@/img/bronze-medal.png";
 type Props = {}
 
 const LeaderBoard = (props: Props) => {
-
+    const [icon, setIcon] = useState(false);
     const [sidebar, setSidebar] = useState(true);
-    const showSidebar = () => setSidebar(!sidebar);
-
+    const showSidebar = () => { setSidebar(!sidebar), setIcon(!icon) };
     const [users, setUsers] = useState<any>([]);
 
     const { data: records } = useRecords();
@@ -54,10 +54,14 @@ const LeaderBoard = (props: Props) => {
         <div>
             <div className={style.nav__menu__icon}>
                 <button onClick={showSidebar} >
-                    <img src="https://cdn-icons-png.flaticon.com/512/6345/6345315.png" alt="Rank" width="50px" />
+                    {icon ?
+                        <img src="https://cdn-icons-png.flaticon.com/512/6345/6345315.png" alt="Rank" width="50px" /> : ""}
                 </button>
             </div>
             <div className={sidebar ? style.nav__menu__active : style.nav__menu}>
+                <div className='absolute text-xl cursor-pointer right-1 top-1' onClick={showSidebar}>
+                    <AiFillCloseCircle />
+                </div>
                 <div className={style.result}>
                     <div className={style.result__title}>
                         Wall of fame
