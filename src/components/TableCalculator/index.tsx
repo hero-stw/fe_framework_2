@@ -7,20 +7,27 @@ import { saveInputValue } from '@/store/slice/resultSlice';
 import { saveTotal } from '@/store/slice/totalSlice';
 
 type Props = {
-    calculator:any,
     percent:number
 }
 
-const TableCalculator = ({calculator,percent}: Props) => {
+const TableCalculator = ({percent}: Props) => {
 
     const[calculation,setCalculation] = useState([]);
 
+    // Danh sách phép tính
     const calculationList = useSelector((state:any) => state.calculation.calculations);
+    
+    console.log(calculationList);
+    
 
     const Operations = useSelector((state:any) => state.calculation.Operations);
 
     useEffect(() =>{
-        setCalculation(calculationList);
+        if(calculationList.length > 6){
+            return;
+        }else{
+            setCalculation(calculationList);
+        }
     },[calculationList])
     
 
@@ -36,10 +43,13 @@ const TableCalculator = ({calculator,percent}: Props) => {
 
     const b = useSelector((state:any) => state.calculation.b);
 
+    
     const total = useSelector((state:any) => state.total.total);
+    console.log(total);
+    
 
     // input store
-    const inputValue = useSelector((state:any) => state.result.inputValue)
+    // const inputValue = useSelector((state:any) => state.result.inputValue)
 
     // Tính tổng hai số
     const[sum, setSum] = useState<number>(0); 
@@ -51,79 +61,61 @@ const TableCalculator = ({calculator,percent}: Props) => {
     const[notification,setNotification] = useState(false);
 
     const checkPercentFalse = (a:number,b:number) =>{
-        if(a > b){
+        if(a > b){  // Nếu kết quả lớn hơn %
             setNotification(true)
         }else{
             setNotification(false)
         }
     }
+
+    const logicCalculation = (c) =>{
+        numDot(input)
+        dispatch(saveInputValue(input))
+        setSum(c)
+        const savePercentage = Math.abs(input - c) / c * 100 
+        setPercentFalse(roundTo2(savePercentage)) 
+        checkPercentFalse(savePercentage,Number(percent)) // So sánh phần trăm sai
+    }
     
-    const handleKeyDown = (event) =>{       
-        if(event.key === 'Enter'){
+    const handleKeyDown = (event) =>{      
+        // if((event.which >= 65 && event.which < 96) || (event.which > 105 && event.which <= 255 && event.which != 190)){
+        //     setInput(0);
+        // } 
+        // if (event.which >= 37 && event.which <= 40) return; // arrow
+        if(event.keyCode === 13){
             if(s == '+'){
-                numDot(input)
-                dispatch(saveInputValue(input))
                 const c = a + b;
-                
-                setSum(c)
-                const savePercentage = Math.abs(input - c) / c * 100 
-                setPercentFalse(savePercentage) 
-                checkPercentFalse(savePercentage,Number(percent))
+                logicCalculation(c)
             }
 
             if(s == '-'){
                 if(a < b){
-                    numDot(input)
-                    const c = b - a
-                    setSum(c)
-                    const savePercentage = Math.abs(input - c) / c * 100 
-                    setPercentFalse(savePercentage)
-                    checkPercentFalse(savePercentage,Number(percent))
-                    dispatch(saveInputValue(input))
+                    const c = a - b;
+                    logicCalculation(c)
                 }else{
-                    numDot(input)
                     const c = a - b
-                    setSum(c)
-                    const savePercentage = Math.abs(input - c) / c * 100 
-                    setPercentFalse(savePercentage)
-                    checkPercentFalse(savePercentage,Number(percent))
-                    dispatch(saveInputValue(input))
+                    logicCalculation(c)
                 }
             }
 
-            if(s == 'x'){
-                numDot(input)
+            if(s == '×'){
                 const c = a * b
-                setSum(c)
-                const savePercentage = Math.abs(input - c) / c * 100
-                setPercentFalse((savePercentage))
-                checkPercentFalse(savePercentage,Number(percent))
-                dispatch(saveInputValue(input))
+                logicCalculation(c)
             }
 
             if(s == '÷'){
                 if(a < b){
-                    numDot(input)
                     const c = b / a
-                    setSum(c)
-                    const savePercentage = Math.abs(input - c) / c * 100 
-                    setPercentFalse(savePercentage)
-                    checkPercentFalse(savePercentage,Number(percent))
-                    dispatch(saveInputValue(input))
+                    logicCalculation(c)
                 }else{
-                    numDot(input)
-                    dispatch(saveInputValue(input))
                     const c = a / b
-                    setSum(c)
-                    const savePercentage = Math.abs(input - c) / c * 100 
-                    setPercentFalse(savePercentage)
-                    checkPercentFalse(savePercentage,Number(percent))
+                    logicCalculation(c)
                 }
             }
-            
             dispatch(randomCalculation())
         }
     }
+
     useEffect(() => {
         if(input != 0){
             dispatch(saveTotal({
@@ -137,6 +129,7 @@ const TableCalculator = ({calculator,percent}: Props) => {
         }
     },[sum])
 
+    // Đóng thông báo sai
     const close = () =>{
         setNotification(false)
     }
@@ -176,21 +169,20 @@ const TableCalculator = ({calculator,percent}: Props) => {
                     <tbody>
                         {
                             calculation.map((item,index) => (
-                            <tr key={index}>
-                                <td className='px-2'>{index += 1}</td>
+                            <tr key={index} className='relative'>
+                                <td className='px-2'>{index += 1 }</td>
                                 <td className='w-80 px-2 py-2'>
                                     <p className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
                                 </td>
                                 <td className='w-48'>
-                                    <input type="text" onKeyDown={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
+                                    <input type="text" value={input} onKeyUp={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
                                 </td>
                                 {total.map((data: any) => (
-                                    item === data.calculator ? <>
-                                        <td className='' >{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
-                                        <td className='' >{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
+                                    item === data.calculator? <>
+                                        <td className='absolute' style={{marginLeft:"88px",marginTop:"-40px"}}>{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
+                                        <td className='absolute' style={{marginLeft:"380px",marginTop:"-40px"}}>{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
                                     </> : null
                                 ))}
-                                
                             </tr>
                             ))
                         }
