@@ -11,14 +11,6 @@ type Props = {
 
 const CalculatorHeader = ({setCalculator,setPercent,percent}: Props) => {
 
-    // dispath gọi reducer
-
-    // const[calculation1,setCalculation] = useState([]);
-
-    // const calculationList = useSelector((state:any) => state.calculation.calculations);
-
-    // setCalculation(calculationList);
-
     const dispatch = useDispatch();
 
     const calculation = useSelector((state:any) => state.calculation.calculation);

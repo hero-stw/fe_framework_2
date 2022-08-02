@@ -1,8 +1,28 @@
-import React from 'react'
+import { roundTo2 } from '@/commons';
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 type Props = {}
 
+
 const Footer = (props: Props) => {
+    const marginOffError = useSelector((state:any) => state.total.total);
+    let sum = 0;
+
+    marginOffError.map((item:any, index) => {
+        index += 1
+        sum += item.marginOfError
+        console.log(sum);
+        
+        if(index == 5){
+            sum /= 5
+        }else{
+            sum = 0
+        }
+      }
+    )
+    
+
     return (
         <div>
             <div className="flex justify-between items-center ">
@@ -13,7 +33,7 @@ const Footer = (props: Props) => {
                 <div className='flex space-x-24 mr-8'>
                     <h2 className='text-xl font-bold'>AVERAGE</h2>
                     <div className='text-xl font-bold text-[#4092ed]'>
-                        00.00%
+                        {roundTo2(sum)}%
                     </div>
                     <div className='text-xl font-bold text-[#4092ed]'>
                         00.00
