@@ -4,14 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 interface IResultState {
     correctResult: string;
     marginOfError: string;
-    duration: string;
-    inputValue: string
+    duration: any[];
+    inputValue: string,
+    start: number,
+    avgTime: number
 }
 const initialState: IResultState = {
     correctResult: '',
     marginOfError: '',
-    duration:'',
-    inputValue:''
+    duration: [],
+    inputValue:'',
+    start: 0,
+    avgTime: 0,
 };
 
 export const resultSlice = createSlice({
@@ -25,14 +29,20 @@ export const resultSlice = createSlice({
             state.marginOfError = actions.payload
         },
         saveDuration: (state, actions) => {
-            state.duration = actions.payload
+            state.duration.push(actions.payload)
         },
         saveInputValue: (state, actions) => {
             state.inputValue = actions.payload
+        },
+        saveStart: (state, actions) => {
+            state.start = actions.payload
+        },
+        saveAvgTime: (state, actions) => {
+            state.avgTime = actions.payload
         }
     }
 })
 
-export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue} = resultSlice.actions
+export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue, saveStart, saveAvgTime} = resultSlice.actions
 
 export default resultSlice.reducer

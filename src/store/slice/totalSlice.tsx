@@ -7,7 +7,8 @@ interface TypeTotal {
         inputValue: number,
         correctResult: number,
         marginOfError: number,
-        duration: number
+        duration: number,
+        time: string
     }
 }
 

@@ -55,3 +55,5 @@ export const avgOfArray = (arr: number[]) => {
   const avg = sum / arr.length || 0;
   return avg;
 };
+
+

@@ -1,6 +1,7 @@
-import { roundTo2 } from '@/commons';
+import { avgOfArray, roundTo2 } from '@/commons';
+import { saveAvgTime } from '@/store/slice/resultSlice';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 type Props = {}
 
@@ -8,14 +9,17 @@ type Props = {}
 const Footer = (props: Props) => {
     const marginOffError = useSelector((state:any) => state.total.total);
     let sum = 0;
+    let save = 0
+    const timelap = useSelector((state:any) => state.result.duration);
 
     marginOffError.map((item:any, index) => {
         index += 1
         sum += item.marginOfError
-        console.log(sum);
-        
+        const dispatch = useDispatch();
         if(index == 5){
             sum /= 5
+            save = avgOfArray(timelap)
+            dispatch(saveAvgTime(save))
         }else{
             sum = 0
         }
@@ -36,7 +40,7 @@ const Footer = (props: Props) => {
                         {roundTo2(sum)}%
                     </div>
                     <div className='text-xl font-bold text-[#4092ed]'>
-                        00.00
+                        {save}
                     </div>
                 </div>
             </div>

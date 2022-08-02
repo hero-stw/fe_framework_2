@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { randomCalculation } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
+import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
@@ -29,6 +30,11 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
     if (a != 0 && b != 0) {
         setCalculator(c)
     }
+
+    const Start = () => {
+        dispatch(saveStart(Date.now()))
+        console.log("Start!");
+    };
 
     return (
         <div>
@@ -62,7 +68,7 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                     </div>
                 </div>
                 <div className={style.calculator__button}>
-                    <button onClick={() => { changeIcon(), dispatch(randomCalculation()) }} >
+                    <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start()}} >
                         <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
                     </button>
                 </div>

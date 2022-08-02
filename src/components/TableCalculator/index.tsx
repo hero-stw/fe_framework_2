@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { roundTo2,numDot,l100 } from "../../commons/index";
+import { roundTo2,numDot,l100, avgOfArray } from "../../commons/index";
 import { randomCalculation } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
-import { saveInputValue } from '@/store/slice/resultSlice';
+import { saveDuration, saveInputValue, saveStart } from '@/store/slice/resultSlice';
 import { saveTotal } from '@/store/slice/totalSlice';
 
 type Props = {
-    percent:number
+    percent:number,
+    setStart: () => void
 }
 
-const TableCalculator = ({percent}: Props) => {
+const TableCalculator = ({percent, setStart}: Props) => {
 
     const[calculation,setCalculation] = useState([]);
 
@@ -18,9 +19,6 @@ const TableCalculator = ({percent}: Props) => {
 
     // Danh sách phép tính
     const calculationList = useSelector((state:any) => state.calculation.calculations);
-    
-    console.log(calculationList);
-    
 
     const Operations = useSelector((state:any) => state.calculation.Operations);
 
@@ -44,10 +42,10 @@ const TableCalculator = ({percent}: Props) => {
     const a = useSelector((state:any) => state.calculation.a);
 
     const b = useSelector((state:any) => state.calculation.b);
+    const start = useSelector((state:any) => state.result.start);
 
     
     const total = useSelector((state:any) => state.total.total);
-    console.log(total);
     
 
     // input store
@@ -58,6 +56,8 @@ const TableCalculator = ({percent}: Props) => {
     
     // Lưu phần trăm sai
     const[percentFalse,setPercentFalse] = useState<number>(0);
+
+    const[ time,setTime] = useState<string>('');
 
     // Thông báo lỗi sai
     const[notification,setNotification] = useState(false);
@@ -79,12 +79,42 @@ const TableCalculator = ({percent}: Props) => {
         checkPercentFalse(savePercentage,Number(percent)) // So sánh phần trăm sai
     }
     
+    const [lap, setLap] = useState<number[]>([]);
+
+    const [duration, setDuration] = useState<number>(0);
+    // const [clock, setClock] = useState<string>("");
+    
+    const Lap = () => {
+        if (lap.length <= 4) {
+        // Hiển thị thời gian đã làm dạng mm:ss:msms
+        console.log(start);
+        
+        const lapText = new Date(Date.now() - start);
+        // Tính toán thời gian đã làm
+        const lapNum = Date.now() - start;
+
+        // Tính khoảng tgian User làm 1 câu => Set vào State Duration
+        setDuration(Date.now() - start);
+        dispatch(saveDuration(lapNum))
+        setLap([...lap, lapNum]);
+        dispatch(saveStart(Date.now()))
+        setTime(lapText.getMinutes() +
+            ":" +
+            lapText.getSeconds() +
+            ":" +
+            lapText.getMilliseconds())
+        } else {
+        console.log("Lap Array: ", lap);
+        console.log("Time average: ", Math.ceil(avgOfArray(lap)));
+        }
+    };
     const handleKeyDown = (event) =>{      
         // if((event.which >= 65 && event.which < 96) || (event.which > 105 && event.which <= 255 && event.which != 190)){
         //     setInput(0);
         // } 
         // if (event.which >= 37 && event.which <= 40) return; // arrow
         if(event.keyCode === 13){
+            Lap()
             if(s == '+'){
                 const c = a + b;
                 logicCalculation(c)
@@ -125,12 +155,13 @@ const TableCalculator = ({percent}: Props) => {
                 inputValue: input,
                 correctResult: sum,
                 marginOfError: percentFalse,
-                duration: 1
+                duration: duration,
+                time: time
             }))
             setInput(0)
         }
     },[sum])
-
+    
     // Đóng thông báo sai
     const close = () =>{
         setShowTotal(false)
@@ -183,6 +214,7 @@ const TableCalculator = ({percent}: Props) => {
                                         </td>
                                         <td >{item.correctResult == 0 ? null : numDot(item.correctResult)}</td>
                                         <td >{item.marginOfError == 0 ? "" : l100(roundTo2(item.marginOfError))}</td>
+                                        <td >{item.duration == 0 ? "" : <div>{item.time}</div>}</td>
                                     </tr>
                                     ))
                                 }
@@ -237,6 +269,7 @@ const TableCalculator = ({percent}: Props) => {
                     item === data.calculator? <>
                         <td className='absolute' style={{marginLeft:"48px",marginTop:"-40px"}}>{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
                         <td className='absolute' style={{marginLeft:"250px",marginTop:"-40px"}}>{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
+                        <td className='absolute' style={{marginLeft:"420px",marginTop:"-40px"}}>{data.time}</td>
                     </> : null
                 ))}
             </tr>
