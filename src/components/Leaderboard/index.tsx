@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import style from "@/components/Leaderboard/Leaderboard.module.css"
 import Image from 'next/image';
+import {useRecords} from "../../hooks/records";
 import goldmedal from "@/img/gold-medal.png";
 import silvermedal from "@/img/silver-medal.png";
 import bronzemedal from "@/img/bronze-medal.png";
-import axios from 'axios';
+
 type Props = {}
 
 const LeaderBoard = (props: Props) => {
 
-    const[users,setUsers] = useState([]);
+    const [sidebar, setSidebar] = useState(true);
+    const showSidebar = () => setSidebar(!sidebar);
+
+    const[users,setUsers] = useState<any>([]);
+
+    const {data:records} = useRecords();
 
     const sortUsers = (index) =>{
 
@@ -31,20 +37,27 @@ const LeaderBoard = (props: Props) => {
             case 2:
                 return <Image src={bronzemedal}></Image>
             default:
-                return ++index;
+                return <div className='bg-gray-500 rounded-full h-8 w-8 flex justify-center items-center ml-2 text-white'>{++index}</div> ;
         }
     }
 
     useEffect(() =>{
-        const handleUsers = async () =>{
-            const {data} = await axios.get("https://62d4ee22cd960e45d45dc40a.mockapi.io/users");
-            setUsers(data);
+        const handleUsers = () =>{
+           if(records){
+            setUsers(records);
+           }
         }
         handleUsers();
-    },[])
-
+    },[records])
+    
     return (
         <div>
+            <div className={style.nav__menu__icon}>
+                <button onClick={showSidebar} >
+                    <img src="https://cdn-icons-png.flaticon.com/512/6345/6345315.png" alt="Rank" width="50px" />
+                </button>
+            </div>
+            <div className={sidebar ? style.nav__menu__active : style.nav__menu}>
             <div className={style.result}>
                 <div className={style.result__title}>
                     Wall of fame
@@ -58,7 +71,7 @@ const LeaderBoard = (props: Props) => {
 
                 {
                     users.map((item,index) => (
-                        <div key={item.id} className={style.result__value}>
+                        <div key={item._id} className={style.result__value}>
                         <div className="">
                             {
                                 sortUsers(index)
@@ -66,23 +79,23 @@ const LeaderBoard = (props: Props) => {
                         </div>
                         <div className="-mt-1">
                             <div className={style.result__username}>
-                                {item.name}
+                                {item.userName}
                             </div>
                             <div className={style.result__stat}>
                                 <div className={style.result__percent}>
-                                    {item.percent}
+                                    {item.error} %
                                 </div>
                                 <div className={style.result__time}>
-                                    {item.time}
+                                    {item.timelapse}
                                 </div>
                             </div>
                         </div>
                     </div>
                     ))
                 }
-
             </div>
         </div>
+    </div>
     )
 }
 

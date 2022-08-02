@@ -24,10 +24,14 @@ export const calculationSlice = createSlice({
     // tham số state = initialState
     reducers: {
         randomCalculation: (state) => {
-            state.calculation = equation[random(0, 4)],
-            state.a = numLength(3, 9),
-            state.b = numLength(2, 8),
-            state.Operations = state.a + " " + state.calculation + " " + state.b + " = ?";
+            state.calculation = equation[random(0, 4)];
+            state.a = numLength(3, 9);
+            state.b = numLength(2, 8);
+            if(state.a < state.b){
+                state.Operations = state.b + " " + state.calculation + " " + state.a + " = ?";
+            } else {
+                state.Operations = state.a + " " + state.calculation + " " + state.b + " = ?";
+            }
             state.calculations.push(state.Operations)
         }
     }

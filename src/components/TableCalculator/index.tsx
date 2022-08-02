@@ -71,7 +71,7 @@ const TableCalculator = ({percent}: Props) => {
     const logicCalculation = (c) =>{
         numDot(input)
         dispatch(saveInputValue(input))
-        setSum(c)
+        setSum(roundTo2(c))
         const savePercentage = Math.abs(input - c) / c * 100 
         setPercentFalse(roundTo2(savePercentage)) 
         checkPercentFalse(savePercentage,Number(percent)) // So sánh phần trăm sai
@@ -170,17 +170,32 @@ const TableCalculator = ({percent}: Props) => {
                         {
                             calculation.map((item,index) => (
                             <tr key={index} className='relative'>
-                                <td className='px-2'>{index += 1 }</td>
-                                <td className='w-80 px-2 py-2'>
-                                    <p className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
-                                </td>
-                                <td className='w-48'>
-                                    <input type="text" value={input} onKeyUp={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
-                                </td>
+                                { index == 5 ? 
+                                    <>
+                                        <td  className='px-2' ></td>
+                                        <td  className='w-80 px-2 py-2'>
+                                            <p hidden className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
+                                        </td>
+                                        <td  className='w-48'>
+                                            <input hidden type="text" value={input} onKeyUp={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
+                                        </td>
+                                    </>
+                                    :
+                                    <>
+                                        <td className='px-2' >{index += 1 }</td>
+                                        <td className='w-80 px-2 py-2'>
+                                            <p className='h-10 bg-[#F5F4F4] w-full rounded-xl pt-2'>{item}</p>
+                                        </td>
+                                        <td className='w-48'>
+                                            <input type="text" onKeyUp={handleKeyDown} onInput={(event) => setInput(event.target.value)} className='h-10 border border-yellow-500 w-full rounded-xl outline-none text-center' />
+                                        </td>
+                                    </>
+                                }
+                                
                                 {total.map((data: any) => (
                                     item === data.calculator? <>
-                                        <td className='absolute' style={{marginLeft:"88px",marginTop:"-40px"}}>{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
-                                        <td className='absolute' style={{marginLeft:"380px",marginTop:"-40px"}}>{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
+                                        <td className='absolute' style={{marginLeft:"48px",marginTop:"-40px"}}>{data.correctResult == 0 ? null : numDot(data.correctResult)}</td>
+                                        <td className='absolute' style={{marginLeft:"250px",marginTop:"-40px"}}>{data.marginOfError == 0 ? "" : l100(roundTo2(data.marginOfError))}</td>
                                     </> : null
                                 ))}
                             </tr>
