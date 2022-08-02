@@ -5,6 +5,9 @@ import { randomCalculation } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { saveDuration, saveInputValue, saveStart } from '@/store/slice/resultSlice';
 import { saveTotal } from '@/store/slice/totalSlice';
+import Swal from 'sweetalert2';
+import Link from 'next/link';
+import { useRecords } from '@/hooks/records';
 
 type Props = {
     percent:number,
@@ -17,13 +20,69 @@ const TableCalculator = ({percent, setStart}: Props) => {
 
     const[showTotal, setShowTotal] = useState(true)
 
+    const marginOfError = useSelector((state:any) => state.result.sumError)
+    console.log(marginOfError);
+    
+
+    const avgTime = useSelector((state:any) => state.result.avgTime)
+
+    const {UseAddRecord} = useRecords();
+
+    // Get user
+
+    var user;
+
+    if(localStorage.getItem('user')){
+        user = JSON.parse(localStorage.getItem('user'));    
+        // UseAddRecord({
+        //     userId:user.user._id,
+        //     userName:user.user.email,
+        //     duration:"12s",
+        //     error:marginOfError,
+        //     questionType:1
+        // })
+    }
+    
+
     // Danh sách phép tính
     const calculationList = useSelector((state:any) => state.calculation.calculations);
-
     const Operations = useSelector((state:any) => state.calculation.Operations);
 
     useEffect(() =>{
         if(calculationList.length > 6){
+            Swal.fire({
+                title: 'Bạn có muốn lưu kết quả không ?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Lưu',
+                denyButtonText: `Không`,
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  if(!localStorage.getItem("user")){
+                    Swal.fire({
+                        title: '<strong>Bạn chưa <u>đăng nhập !</u></strong>',
+                        icon: 'info',
+                        html:`
+                        Bạn cần đăng nhập tải khoản để lưu kết quả. <a className="text-red-500" href='/auth/login'>Đăng nhập</a>
+                        Bạn chưa có tài khoản ? <a className="text-red-500" href='/auth/register'>Đăng ký</a>
+                        `,
+                      })
+                    
+                  }else{
+                    UseAddRecord({
+                        userId:user.user._id,
+                        userName:user.user.email,
+                        duration: new Date(avgTime).getSeconds() +":" + new Date(avgTime).getMilliseconds(),
+                        error:marginOfError,
+                        questionType:1
+                    })
+                    Swal.fire('Lưu kết quả thành công !!', '', 'success')
+                  }
+                } else if (result.isDenied) {
+                  Swal.fire('Changes are not saved', '', 'info')
+                }
+              })
             return;
         }else{
             setCalculation(calculationList);
@@ -133,6 +192,7 @@ const TableCalculator = ({percent, setStart}: Props) => {
             if(s == '×'){
                 const c = a * b
                 logicCalculation(c)
+               
             }
 
             if(s == '÷'){

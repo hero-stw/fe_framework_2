@@ -1,21 +1,25 @@
 import { avgOfArray, roundTo2 } from '@/commons';
 import { saveAvgTime } from '@/store/slice/resultSlice';
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import {saveSumError} from "@/store/slice/resultSlice" ;
+
 
 type Props = {}
 
 
 const Footer = (props: Props) => {
+    
     const marginOffError = useSelector((state:any) => state.total.total);
     let sum = 0;
     let save = 0
     const timelap = useSelector((state:any) => state.result.duration);
 
+    const dispatch = useDispatch();
+
     marginOffError.map((item:any, index) => {
         index += 1
         sum += item.marginOfError
-        const dispatch = useDispatch();
         if(index == 5){
             sum /= 5
             save = avgOfArray(timelap)
@@ -25,7 +29,8 @@ const Footer = (props: Props) => {
         }
       }
     )
-    
+
+    dispatch(saveSumError(sum));
 
     return (
         <div>

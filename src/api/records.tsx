@@ -1,7 +1,7 @@
 import instance from "./instance";
 
 export const getOneRecord = (id: string) => {
-    return instance.get(`records/${id}`)
+    return instance.get(`/records/${id}`)
 }
 
 export const addRecord = (data: any) => {

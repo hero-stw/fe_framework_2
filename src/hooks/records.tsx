@@ -4,8 +4,8 @@ import useSWR, {useSWRConfig} from "swr";
 export const useRecords = () =>{
     const {data,error, mutate} = useSWR("/records");
 
-    const UseAddRecord = async(data: any) => {
-        const newRecord = await addRecord(data);
+    const UseAddRecord = async(dataRecords: any) => {
+        const newRecord = await addRecord(dataRecords);
         console.log(newRecord);
         mutate([...data, newRecord]);
     }
