@@ -4,6 +4,7 @@ import Link from "next/link";
 import {useAuth} from "../../hooks/auth";
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/store/slice/userSlice';
+import { useRouter } from 'next/router'
 
 type Props = {}
 
@@ -21,6 +22,8 @@ const Login = (props: Props) => {
   const { UseSignin } = useAuth();
   const dispatch = useDispatch()
 
+  const router = useRouter();
+
   const onSubmit:SubmitHandler<typeRegister> = async (value:any) =>{
     if(value){
         setMeraki(true);
@@ -31,6 +34,7 @@ const Login = (props: Props) => {
         dispatch(loginSuccess(user))
         setTimeout(()=> {
             setMeraki(false);
+            router.push('/');
         },1000)
     }
   }
