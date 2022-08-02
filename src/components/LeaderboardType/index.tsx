@@ -1,32 +1,18 @@
+import useSetting from '@/hooks/settings';
 import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 
 type Props = {}
 
 const LeaderboardType = (props: Props) => {
-
-    const [products,setProducts] = useState([]);
-
-    useEffect(() =>{
-
-        const handleCategories = async () =>{
-            const {data} = await axios.get("https://62d4ee22cd960e45d45dc40a.mockapi.io/categories");
-            setProducts(data)
-            console.log(data);
-        }
-
-        handleCategories();
-
-    },[])
-
   return (
     <div>
          <select name="" id="">
-            {
-                products.map((item) => (
-                    <option key={item.id} value="">{item.name}</option>
-                ))
-            }            
+            <option value="">Basic Operations (All)</option>  
+            <option value="2">Additions (+)</option>
+            <option value="3">Subtractions (-)</option>
+            <option value="4">Multiplications (x)</option>
+            <option value="5">Divisions (÷)</option>
         </select>
     </div>
   )
