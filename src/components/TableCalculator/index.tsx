@@ -184,10 +184,14 @@ const TableCalculator = ({ percent, setStart }: Props) => {
         }
     };
     const handleKeyDown = (event) => {
-        // if((event.which >= 65 && event.which < 96) || (event.which > 105 && event.which <= 255 && event.which != 190)){
-        //     setInput(0);
-        // }
-        // if (event.which >= 37 && event.which <= 40) return; // arrow
+        if((event.which >= 65 && event.which < 96) || (event.which > 105 && event.which <= 255 && event.which != 190)){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Vui lòng vui lòng không nhập gì khác ngoài số!',
+            })
+        }
+        if (event.which >= 37 && event.which <= 40) return; // arrow
         if (event.keyCode === 13) {
             Lap();
             if (s == "+") {
