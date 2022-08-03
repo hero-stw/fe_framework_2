@@ -50,6 +50,17 @@ export const msToHMS = (ms: any) => {
   return Math.floor(sec) + "s " + Math.floor(mili);
 };
 
+export const currencyMask = (e: React.ChangeEvent<HTMLInputElement>) => {
+  let value = e.target.value;
+  value = value.replace(/\D/g, "");
+  value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  e.target.value = value
+  return e;
+}
+
+export const removecommas = (e: string) => {
+  return Number(e.replace(/,/g, ""));
+}
 export const avgOfArray = (arr: number[]) => {
   const sum = arr.reduce((a, b) => a + b, 0);
   const avg = sum / arr.length || 0;
