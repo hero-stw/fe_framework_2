@@ -5,6 +5,7 @@ import { randomCalculation } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
 import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
+import Swal from "sweetalert2"
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
@@ -13,7 +14,8 @@ type Props = {
 
 const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
     const [icon, setIcon] = useState(true);
-    const changeIcon = () => setIcon(false)
+    const changeIcon = () => setIcon(false);
+    const [showpercent, setShowpercent] = useState(true);
     const dispatch = useDispatch();
 
     const calculation = useSelector((state: any) => state.calculation.calculation);
@@ -55,24 +57,41 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                     <div className={style.calculator__option__item}>
                         <h3 className="small-title">Caculation Type</h3>
                         <select name="" id="" className='outline-none'>
-                        <option value="">Basic Operations (All)</option>  
-                        <option value="2">Additions (+)</option>
-                        <option value="3">Subtractions (-)</option>
-                        <option value="4">Multiplications (x)</option>
-                        <option value="5">Divisions (÷)</option>
+                            <option value="">Basic Operations (All)</option>
+                            <option value="2">Additions (+)</option>
+                            <option value="3">Subtractions (-)</option>
+                            <option value="4">Multiplications (x)</option>
+                            <option value="5">Divisions (÷)</option>
                         </select>
                         <h3 className="small-title">Ceiling Margin of Error</h3>
                         <label htmlFor="addend" >
-                            <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => setPercent(event.target.value)} />
+                            {showpercent ? <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => setPercent(event.target.value)} /> :
+                                <input type="number" className="outline-none px-2" readOnly value={percent} id="margin" onInput={(event) => setPercent(event.target.value)} />
+                            }
+
                         </label>
                     </div>
                 </div>
                 <div className={style.calculator__button}>
-                    <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start()}} >
+                    {
+                        percent == 0 ? <button onClick={() => Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Vui lòng nhập phần Ceiling Margin of Error!',
+                        })} >
+                            <img src={"https://mconsultingprep.com/wp-content/uploads/2021/07/play.png"} className='inline-block' />
+                        </button>
+                            :
+                            <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent) }} >
+                                <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                            </button>
+                    }
+                    {/* <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent) }} >
                         <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
-                    </button>
+                    </button>*/}
                 </div>
-            </div></div >
+            </div>
+        </div >
     )
 }
 
