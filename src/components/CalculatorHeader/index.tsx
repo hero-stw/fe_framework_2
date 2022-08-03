@@ -10,10 +10,11 @@ import { resetTotal } from '@/store/slice/totalSlice'
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
-    percent: number
+    percent: number,
+    inputRef:any
 }
 
-const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
+const CalculatorHeader = ({ setCalculator, setPercent, percent, inputRef }: Props) => {
     const [icon, setIcon] = useState(true);
     const changeIcon = () => setIcon(!icon);
     const [showpercent, setShowpercent] = useState(true);
