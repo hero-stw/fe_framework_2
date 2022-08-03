@@ -7,6 +7,7 @@ import goldmedal from "@/img/gold-medal.png";
 import silvermedal from "@/img/silver-medal.png";
 import bronzemedal from "@/img/bronze-medal.png";
 import LeaderboardType from '../LeaderboardType';
+import {roundTo2} from "@/commons/index";
 
 type Props = {}
 
@@ -17,6 +18,10 @@ const LeaderBoard = (props: Props) => {
     const [users, setUsers] = useState<any>([]);
 
     const { data: records } = useRecords();
+
+    const[option,setOption] = useState<number>(0);    
+
+    const newUser = users.filter(item => item.questionType == option);
 
     const sortUsers = (index) => {
 
@@ -61,18 +66,18 @@ const LeaderBoard = (props: Props) => {
             </div>
             <div className={sidebar ? style.nav__menu__active : style.nav__menu}>
                 <div className='absolute text-xl cursor-pointer right-1 top-1' onClick={showSidebar}>
-                    <AiFillCloseCircle />
+                    <AiFillCloseCircle/>
                 </div>
                 <div className={style.result}>
                     <div className={style.result__title}>
                         Wall of fame
                     </div>
                     <div className={style.result__category}>
-                        <LeaderboardType />
+                        <LeaderboardType setOption={setOption}/>
                     </div>
 
                     {
-                        users.map((item, index) => (
+                        newUser.map((item, index) =>(
                             <div key={item._id} className={style.result__value}>
                                 <div className="">
                                     {
@@ -85,10 +90,10 @@ const LeaderBoard = (props: Props) => {
                                     </div>
                                     <div className={style.result__stat}>
                                         <div className={style.result__percent}>
-                                            {item.error} %
+                                            {roundTo2(item.error)} %
                                         </div>
                                         <div className={style.result__time}>
-                                            {item.timelapse}
+                                            {item.duration}
                                         </div>
                                     </div>
                                 </div>

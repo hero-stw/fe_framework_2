@@ -2,7 +2,7 @@ import { getOneRecord, addRecord, listRecords, updateRecords, removeRecords } fr
 import useSWR, {useSWRConfig} from "swr";
 
 export const useRecords = () =>{
-    const {data,error, mutate} = useSWR("/records");
+    const {data,error, mutate} = useSWR(["/records/withlimit", {type : 1}]);
 
     const UseAddRecord = async(dataRecords: any) => {
         const newRecord = await addRecord(dataRecords);
