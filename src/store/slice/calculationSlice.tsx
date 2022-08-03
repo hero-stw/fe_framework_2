@@ -15,9 +15,12 @@ const initialState: ICalculationState = {
     Operations: '',
     a: 0,
     b: 0,
-    addition:''
+    addition:'1'
 };
 
+const calculation = (a: number, b: number, ch: string) => {
+    return a + " " + ch + " " + b + " = ?";
+}
 const equation = ["+", "-", "×", "÷"];
 export const calculationSlice = createSlice({
     name: "calculation",
@@ -33,33 +36,33 @@ export const calculationSlice = createSlice({
             // Tất cả phép tính
             if(state.addition == '1'){
                 if(state.a < state.b){
-                    state.Operations = state.b + " " + state.calculation + " " + state.a + " = ?";
+                    state.Operations = calculation(state.b, state.a, state.calculation )
                 } else {
-                    state.Operations = state.a + " " + state.calculation + " " + state.b + " = ?";
+                    state.Operations = calculation(state.a, state.b, state.calculation )
                 }
             
             // Phép tính cộng
             }else if(state.addition == '2'){
-                state.Operations = state.b + " + " + state.a + " = ?";
+                state.Operations = calculation(state.a, state.b, "+" )
             
             // Phép tính trừ
             }else if(state.addition == '3'){
                 if(state.a < state.b){
-                    state.Operations = state.b + " - " + state.a + " = ?";
+                    state.Operations = calculation(state.b, state.a, "-" )
                 } else {
-                    state.Operations = state.a + " - " + state.b + " = ?";
+                    state.Operations = calculation(state.a, state.b, "-" )
                 }
                 
             // Phép tính nhân    
             }else if(state.addition == '4'){
-                state.Operations = state.b + " × " + state.a + " = ?";
+                state.Operations = calculation(state.a, state.b, "×" )
 
             // Phép tính chia  
             }else if(state.addition == '5'){
                 if(state.a < state.b){
-                    state.Operations = state.b + " ÷ " + state.a + " = ?";
+                    state.Operations = calculation(state.b, state.a, "÷" )
                 } else {
-                    state.Operations = state.a + " ÷ " + state.b + " = ?";
+                    state.Operations = calculation(state.a, state.b, "÷" )
                 }
             }
            
