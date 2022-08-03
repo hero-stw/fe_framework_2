@@ -166,10 +166,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             setLap([...lap, lapNum]);
             dispatch(saveStart(Date.now()));
             setTime(
-                lapText.getMinutes() +
-                ":" +
                 lapText.getSeconds() +
-                ":" +
+                "s" +
                 lapText.getMilliseconds()
             );
         } else {
@@ -310,8 +308,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                         </td>
                                         <td>
                                             {item.marginOfError == 0
-                                                ? ""
-                                                : l100(roundTo2(item.marginOfError))}
+                                                ? "0"
+                                                : l100(roundTo2(item.marginOfError))}%
                                         </td>
                                         <td>{item.duration == 0 ? "" : <div>{item.time}</div>}</td>
                                     </tr>
@@ -397,7 +395,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                 >
                                                     {data.marginOfError == 0
                                                         ? ""
-                                                        : l100(roundTo2(data.marginOfError))}
+                                                        : l100(roundTo2(data.marginOfError))} %
                                                 </td>
                                                 <td
                                                     className="absolute"
