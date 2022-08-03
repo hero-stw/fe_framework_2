@@ -289,9 +289,8 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
             dispatch(randomCalculation());
         }
     };
-    
     useEffect(() => {
-        if(start != 0){
+        if(calculation.length){
             ref.current.focus()
         }
         if (removecommas(input) != 0) {
@@ -307,7 +306,7 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
             );
             setInput("");
         }
-    }, [sum]);
+    }, [sum, calculation.length]);
     console.log(input);
     
     // Đóng thông báo sai
