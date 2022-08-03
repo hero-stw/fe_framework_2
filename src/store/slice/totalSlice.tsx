@@ -25,10 +25,13 @@ export const numberSlice = createSlice({
     reducers: {
         saveTotal: (state, actions) => {
             state.total.push(actions.payload)
+        },
+        resetTotal: (state) => {
+            state.total = []
         }
     }
 })
 
-export const { saveTotal } = numberSlice.actions
+export const { saveTotal, resetTotal } = numberSlice.actions
 
 export default numberSlice.reducer

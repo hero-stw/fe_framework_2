@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import style from "@/components/CalculatorHeader/Calculator_header.module.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { randomCalculation, saveAddition } from '@/store/slice/calculationSlice'
+import { randomCalculation, reset, resetCalculation, saveAddition, setInput } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
 import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
 import Swal from "sweetalert2"
+import { resetTotal } from '@/store/slice/totalSlice'
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
@@ -14,8 +15,9 @@ type Props = {
 
 const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
     const [icon, setIcon] = useState(true);
-    const changeIcon = () => setIcon(false);
+    const changeIcon = () => setIcon(!icon);
     const [showpercent, setShowpercent] = useState(true);
+    const [showButton, setShowButton] = useState(true);
     const dispatch = useDispatch();
 
     const calculation = useSelector((state: any) => state.calculation.calculation);
@@ -38,6 +40,8 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
         dispatch(saveStart(Date.now()))
         console.log("Start!");
     };
+
+    useEffect(()=>{},[])
 
     return (
         <div>
@@ -75,7 +79,8 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                 </div>
                 <div className={style.calculator__button}>
                     {
-                        percent == 0 ? <button onClick={() => Swal.fire({
+                        percent == 0 ? 
+                        <button onClick={() => Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Vui lòng nhập phần Ceiling Margin of Error!',
@@ -83,7 +88,12 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                             <img src={"https://mconsultingprep.com/wp-content/uploads/2021/07/play.png"} className='inline-block' />
                         </button>
                             :
-                            <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent) }} >
+                            showButton ? 
+                            <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
+                                <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                            </button>
+                            :
+                            <button onClick={() => {changeIcon(), dispatch(resetCalculation()), dispatch(resetTotal()), dispatch(setInput('0')), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
                                 <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
                             </button>
                     }

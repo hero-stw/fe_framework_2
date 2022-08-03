@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roundTo2, numDot, l100, avgOfArray, removecommas } from "../../commons/index";
-import { randomCalculation } from "@/store/slice/calculationSlice";
+import { randomCalculation, setInput } from "@/store/slice/calculationSlice";
 import { randomNumber } from "@/store/slice/numberSlice";
 import {
     saveDuration,
@@ -30,7 +30,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const [showTotal, setShowTotal] = useState(true);
 
     const marginOfError = useSelector((state: any) => state.result.sumError);
-    console.log(marginOfError);
+
+    const input = useSelector((state: any) => state.calculation.input);
 
     const avgTime = useSelector((state: any) => state.result.avgTime);
 
@@ -110,7 +111,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const dispatch = useDispatch();
 
     // Value input
-    const [input, setInput] = useState<string>("");
+    
 
     // Phép tính
     const s = useSelector((state: any) => state.calculation.calculation);
@@ -118,6 +119,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const a = useSelector((state: any) => state.calculation.a);
 
     const b = useSelector((state: any) => state.calculation.b);
+
     const start = useSelector((state: any) => state.result.start);
 
     const total = useSelector((state: any) => state.total.total);
@@ -184,6 +186,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
         }
     };
     const handleKeyDown = (event) => {
+        
         if((event.which >= 65 && event.which < 96) || (event.which > 105 && event.which <= 255 && event.which != 190)){
             Swal.fire({
                 icon: 'error',
@@ -192,6 +195,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             })
         }
         if (event.which >= 37 && event.which <= 40) return; // arrow
+        if (event.which >= 48 && event.which <= 57) dispatch(setInput(event.target.value)) ;
         if (event.keyCode === 13) {
             Lap();
             if (s == "+") {
@@ -289,7 +293,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             dispatch(randomCalculation());
         }
     };
-
+    
     useEffect(() => {
         if (removecommas(input) != 0) {
             dispatch(
@@ -305,7 +309,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             setInput("");
         }
     }, [sum]);
-
+    console.log(input);
+    
     // Đóng thông báo sai
     const close = () => {
         setShowTotal(false);
@@ -428,7 +433,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                     name="answer"
                                                     value={input}
                                                     onKeyUp={handleKeyDown}
-                                                    onInput={(event) => setInput(event.target.value)}
+                                                    autoComplete="off"
+                                                    // onInput={(event) => setInput(event.target.value)}
                                                     className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
                                                 />
                                             </td>
@@ -445,8 +451,10 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                 <input
                                                     type="text"
                                                     name="answer"
+                                                    value={null}
                                                     onKeyUp={handleKeyDown}
-                                                    onInput={(event) => setInput(event.target.value)}
+                                                    autoComplete="off"
+                                                    // onInput={(event) => setInput(event.target.value)}
                                                     className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
                                                     onChange={(e) => handleChange(currencyMask(e))}
                                                 />
