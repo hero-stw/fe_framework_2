@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from "@/components/CalculatorHeader/Calculator_header.module.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { randomCalculation } from '@/store/slice/calculationSlice'
+import { randomCalculation, saveAddition } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
 import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
@@ -19,6 +19,7 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
     const dispatch = useDispatch();
 
     const calculation = useSelector((state: any) => state.calculation.calculation);
+
 
     const a = useSelector((state: any) => state.calculation.a)
 
@@ -56,8 +57,8 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                 <div className={style.calculator__option}>
                     <div className={style.calculator__option__item}>
                         <h3 className="small-title">Caculation Type</h3>
-                        <select name="" id="" className='outline-none'>
-                            <option value="">Basic Operations (All)</option>
+                        <select name="" id="" className='outline-none' onChange={(event) => dispatch(saveAddition(event.target.value)) }>
+                            <option value="1">Basic Operations (All)</option>
                             <option value="2">Additions (+)</option>
                             <option value="3">Subtractions (-)</option>
                             <option value="4">Multiplications (x)</option>

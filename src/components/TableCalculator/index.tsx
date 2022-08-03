@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roundTo2, numDot, l100, avgOfArray, removecommas } from "../../commons/index";
 import { randomCalculation } from "@/store/slice/calculationSlice";
@@ -24,6 +24,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDot({ ...dot, [e.target.name]: e.target.value });
     };
+
     const [calculation, setCalculation] = useState([]);
 
     const [showTotal, setShowTotal] = useState(true);
@@ -50,10 +51,17 @@ const TableCalculator = ({ percent, setStart }: Props) => {
         // })
     }
 
+    
+
     // Danh sách phép tính
     const calculationList = useSelector(
         (state: any) => state.calculation.calculations
     );
+    
+    // Phép tính option
+
+    const optionCalculation = useSelector((state:any) => state.calculation.addition);
+
     const Operations = useSelector((state: any) => state.calculation.Operations);
 
     useEffect(() => {
@@ -85,7 +93,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                 ":" +
                                 new Date(avgTime).getMilliseconds(),
                             error: marginOfError,
-                            questionType: 1,
+                            questionType: Number(optionCalculation),
                         });
                         Swal.fire("Lưu kết quả thành công !!", "", "success");
                     }
@@ -211,6 +219,69 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                     logicCalculation(c);
                 }
             }
+
+            // Tất cả phép tính
+            if(optionCalculation == 1){
+                if (s == "+") {
+                    const c = a + b;
+                    logicCalculation(c);
+                }
+    
+                if (s == "-") {
+                    if (a < b) {
+                        const c = b - a;
+                        logicCalculation(c);
+                    } else {
+                        const c = a - b;
+                        logicCalculation(c);
+                    }
+                }
+    
+                if (s == "×") {
+                    const c = a * b;
+                    logicCalculation(c);
+                }
+    
+                if (s == "÷") {
+                    if (a < b) {
+                        const c = b / a;
+                        logicCalculation(c);
+                    } else {
+                        const c = a / b;
+                        logicCalculation(c);
+                    }
+                }
+            }
+            // Phép tính cộng
+            else if(optionCalculation == 2){
+                const c = a + b;
+                logicCalculation(c);
+            }
+            // Phép tính trừ
+            else if(optionCalculation == 3){
+                if (a < b) {
+                    const c = b - a;
+                    logicCalculation(c);
+                } else {
+                    const c = a - b;
+                    logicCalculation(c);
+                }
+            }
+            // Phép tính nhân
+            else if(optionCalculation == 4){
+                const c = a * b;
+                logicCalculation(c);
+            }
+            // Phép tính chia
+            else {
+                if (a < b) {
+                    const c = b / a;
+                    logicCalculation(c);
+                } else {
+                    const c = a / b;
+                    logicCalculation(c);
+                }
+            }
             dispatch(randomCalculation());
         }
     };
@@ -298,6 +369,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                 name="answer"
                                                 value={item.inputValue}
                                                 readOnly
+                                                ref={inputRef}
                                                 className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
                                             />
                                         </td>
