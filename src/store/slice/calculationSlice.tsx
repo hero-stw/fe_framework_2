@@ -7,7 +7,8 @@ interface ICalculationState {
     Operations: string;
     a: number;
     b: number,
-    addition:string
+    addition:string,
+    input: string
 }
 const initialState: ICalculationState = {
     calculation: '',
@@ -15,8 +16,11 @@ const initialState: ICalculationState = {
     Operations: '',
     a: 0,
     b: 0,
-    addition:'1'
+    addition:'1',
+    input: ''
 };
+
+
 
 const calculation = (a: number, b: number, ch: string) => {
     return a + " " + ch + " " + b + " = ?";
@@ -71,9 +75,15 @@ export const calculationSlice = createSlice({
         saveAddition: (state,actions) => {
             state.addition = actions.payload
         },
+        resetCalculation: (state) => {
+            state.calculations = []
+        },
+        setInput: (state, actions) => {
+            state.input = actions.payload
+        }
     }
 })
 
-export const { randomCalculation, saveAddition } = calculationSlice.actions
+export const { randomCalculation, saveAddition, resetCalculation, setInput } = calculationSlice.actions
 
 export default calculationSlice.reducer
