@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import Link from "next/link";
 import { useRecords } from "@/hooks/records";
 import { currencyMask } from "@/commons/index"
+import { isFulfilled } from "@reduxjs/toolkit";
 
 type Props = {
     percent: number;
@@ -60,6 +61,7 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
         (state: any) => state.calculation.calculations
     );
     
+    const ref = useRef(null)
     // Phép tính option
 
     const optionCalculation = useSelector((state:any) => state.calculation.addition);
@@ -287,8 +289,10 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
             dispatch(randomCalculation());
         }
     };
-    
     useEffect(() => {
+        if(calculation.length){
+            ref.current.focus()
+        }
         if (removecommas(input) != 0) {
             dispatch(
                 saveTotal({
@@ -302,7 +306,7 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
             );
             setInput("");
         }
-    }, [sum]);
+    }, [sum, calculation.length]);
     console.log(input);
     
     // Đóng thông báo sai
@@ -312,7 +316,6 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
 
     return (
         <div>
-            
             {notification ? (
                 showTotal ? (
                     <div className="w-full text-white bg-red-500 ">
@@ -464,6 +467,7 @@ const TableCalculator = ({ percent, setStart, inputRef}: Props) => {
                                                     type="text"
                                                     name="answer"
                                                     value={null}
+                                                    ref={ref}
                                                     onKeyUp={handleKeyDown}
                                                     autoComplete="off"
                                                     // onInput={(event) => setInput(event.target.value)}
