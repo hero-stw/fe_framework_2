@@ -3,21 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IResultState {
     correctResult: string;
-    marginOfError: string;
+    marginOfError: number;
     duration: any[];
     inputValue: string,
     start: number,
     avgTime: number,
-    sumError:number
+    sumError: number
 }
 const initialState: IResultState = {
     correctResult: '',
-    marginOfError: '',
+    marginOfError: 0,
     duration: [],
-    inputValue:'',
+    inputValue: '',
     start: 0,
     avgTime: 0,
-    sumError:0
+    sumError: 0
 };
 
 export const resultSlice = createSlice({
@@ -42,12 +42,12 @@ export const resultSlice = createSlice({
         saveAvgTime: (state, actions) => {
             state.avgTime = actions.payload
         },
-        saveSumError:  (state, actions) => {
+        saveSumError: (state, actions) => {
             state.sumError = actions.payload
         }
     }
 })
 
-export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue, saveStart, saveAvgTime, saveSumError} = resultSlice.actions
+export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue, saveStart, saveAvgTime, saveSumError } = resultSlice.actions
 
 export default resultSlice.reducer

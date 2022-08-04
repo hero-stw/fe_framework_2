@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import {
     roundTo2,
@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useRecords } from "@/hooks/records";
 import { currencyMask } from "@/commons/index";
 import { isFulfilled } from "@reduxjs/toolkit";
+import style from "./Table.module.css";
 
 type Props = {
     percent: number;
@@ -292,7 +293,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     };
     useEffect(() => {
         if (calculation.length) {
-            ref.current.focus();
+            // ref.current.focus();
         }
         if (removecommas(input) != 0) {
             dispatch(
@@ -320,7 +321,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             {notification ? (
                 showTotal ? (
                     <div className="w-full text-white bg-red-500 ">
-                        <div
+                        {/* <div
                             id="popup-modal"
                             className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full"
                         >
@@ -382,7 +383,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="container flex items-center justify-between px-6 py-4 mx-auto">
                             <div className="flex">
                                 <svg viewBox="0 0 40 40" className="w-6 h-6 fill-current">
@@ -434,13 +435,18 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                 {item.calculator}
                                             </p>
                                         </td>
-                                        <td className="w-48">
+                                        <td className="w-48 relative">
                                             <input
                                                 type="text"
                                                 name="answer"
                                                 value={item.inputValue}
                                                 readOnly
                                                 className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
+                                            />
+                                            <img
+                                                src="https://mconsultingprep.com/wp-content/uploads/2021/07/wrong@2x.png"
+                                                alt=""
+                                                className={item.marginOfError > marginOfError ? style.showWrong : style.hidePops} width="18px"
                                             />
                                         </td>
                                         <td>
@@ -476,7 +482,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                         </thead>
                         <tbody>
                             {calculation.map((item, index) => (
-                                <tr key={index} className="relative">
+                                <tr key={index} className="">
                                     {index == 5 ? (
                                         <>
                                             <td className="px-2"></td>
@@ -509,7 +515,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                     {item}
                                                 </p>
                                             </td>
-                                            <td className="w-48">
+                                            <td className="w-48 relative">
                                                 <input
                                                     type="text"
                                                     name="answer"
@@ -518,9 +524,20 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                     onKeyUp={handleKeyDown}
                                                     autoComplete="off"
                                                     // onInput={(event) => setInput(event.target.value)}
-                                                    className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
+                                                    className={item.marginOfError > marginOfError ? style.showWrong : style.showRight + " h-10 w-48 border border-yellow-500 w-full rounded-xl outline-none text-center relative"}
                                                     onChange={(e) => handleChange(currencyMask(e))}
                                                 />
+                                                <img
+                                                    src="https://mconsultingprep.com/wp-content/uploads/2021/07/wrong@2x.png"
+                                                    alt=""
+                                                    className={item.marginOfError > marginOfError ? style.showWrong : style.hidePops} width="18px"
+                                                />
+                                                <img
+                                                    src="https://mconsultingprep.com/wp-content/uploads/2021/07/right@2x.png"
+                                                    alt=""
+                                                    className={item.marginOfError < marginOfError ? style.showRight : style.hidePops} width="18px"
+                                                />
+
                                             </td>
                                         </>
                                     )}

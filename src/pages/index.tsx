@@ -4,15 +4,13 @@ import Footer from '@/components/Footer';
 import LeaderBoard from '@/components/Leaderboard';
 import TableCalculator from '@/components/TableCalculator';
 import CalculatorHeader from '@/components/CalculatorHeader';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Count from './test/count';
 const Home: NextPage = () => {
 
   const [calculator, setCalculator] = useState('');
 
   const [percent, setPercent] = useState<number>(0);
-
-  const inputRef = useRef(0);
 
   return (
     <div>
@@ -21,7 +19,7 @@ const Home: NextPage = () => {
         {/* Table Calculation */}
         <div className='w-full px-2'>
           {/* Prop % */}
-          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent}/>
+          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent} />
           <TableCalculator percent={percent} />
           <Footer />
         </div>

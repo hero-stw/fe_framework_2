@@ -1,0 +1,19 @@
+img.hidePops{
+    display: hidden;
+    position: absolute;
+    top: 2px;
+    right: -5%;
+}
+
+.showWrong{
+    display: block;
+    position: absolute;
+    top: 2px;
+    right: -5px;
+}
+.showRight {
+    display: block;
+    position: absolute;
+    top: 12%;
+    right: -5px;
+}
