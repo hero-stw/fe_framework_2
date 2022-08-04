@@ -21,7 +21,7 @@ const LeaderBoard = (props: Props) => {
 
     const [option, setOption] = useState<number>(1);
 
-    const leaderboard =  async () =>{
+    const leaderboard = async () => {
         const data = await UseLeaderboard(Number(option));
         setUsers(data);
         console.log(data);
@@ -29,7 +29,7 @@ const LeaderBoard = (props: Props) => {
         // setUsers(newUser)
     }
 
-    
+
     const sortUsers = (index) => {
 
         // if(index == 0) {

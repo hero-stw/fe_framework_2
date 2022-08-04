@@ -18,7 +18,7 @@ const Header = (props: Props) => {
   };
   return (
     <div>
-      <div className="bg-[#4192EC] flex justify-between items-center px-20 py-2">
+      <div className="bg-[#4192EC] flex justify-between items-center min-w-[80em] m-auto px-36 py-2">
         <div>
           <Link href="/">
             <a>

@@ -19,12 +19,12 @@ const Home: NextPage = () => {
         {/* Table Calculation */}
         <div className='w-full px-2'>
           {/* Prop % */}
-          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent}/>
+          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent} />
           <TableCalculator percent={percent} />
           <Footer />
         </div>
         {/* Ranking */}
-        <div className='flex-initial w-64'>
+        <div className='flex-initial w-72'>
           <LeaderBoard />
         </div>
       </div>

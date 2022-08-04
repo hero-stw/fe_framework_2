@@ -1,0 +1,30 @@
+{data?.map((item) => {
+                                                        return (
+                                                            <div>
+                                                                <div>
+                                                                    {item.userName}
+                                                                </div>
+                                                                <div>
+                                                                    {item.total.map((data) => {
+                                                                        return (
+                                                                            <div className="">
+                                                                                <div>
+                                                                                    {data.calculator}
+                                                                                </div>
+                                                                                <div>
+                                                                                    {data.marginOfError}
+                                                                                </div>
+                                                                                <div>
+                                                                                    {data.time}
+                                                                                </div>
+                                                                            </div>
+
+                                                                        )
+                                                                    })
+
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                        )
+                                                    })}
