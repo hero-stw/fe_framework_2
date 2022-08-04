@@ -1,4 +1,4 @@
-import { getOneRecord, addRecord, listRecords, updateRecords, removeRecords } from "@/api/records";
+import { getOneRecord, addRecord, listRecords, updateRecords, removeRecords, getLeadeboard } from "@/api/records";
 import useSWR, {useSWRConfig} from "swr";
 
 export const useRecords = () =>{
@@ -25,11 +25,17 @@ export const useRecords = () =>{
         mutate([...data, newRecord]);
     }
 
+    const UseLeaderboard = async(type: number) => {
+        const newRecord = await getLeadeboard(type);
+        return newRecord
+    }
+
     return {
         data,
         UseAddRecord,
         UseGetOneRecord,
         UseRemoveRecords,
-        UseUpdateRecords
+        UseUpdateRecords,
+        UseLeaderboard
     }
 }

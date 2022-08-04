@@ -33,12 +33,18 @@ const Footer = (props: Props) => {
             sum /= 5
             save = avgOfArray(timelap)
             dispatch(saveAvgTime(save))
-        } else {
+            localStorage.setItem("marginError",JSON.stringify(sum))
+            console.log("sum",sum);
+        } else  {
             sum = 0
         }
     }
     )
+    
+    
     dispatch(saveSumError(sum));
+
+    
 
     return (
         <>

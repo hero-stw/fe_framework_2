@@ -18,16 +18,16 @@ import { saveTotal } from "@/store/slice/totalSlice";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useRecords } from "@/hooks/records";
-import { currencyMask } from "@/commons/index";
+import { currencyMask } from "@/commons/index"
+import { isFulfilled } from "@reduxjs/toolkit";
 
 type Props = {
   percent: number;
   setStart: () => void;
-  inputRef: any;
 };
 
-const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
-  const [show, setShow] = useState(true);
+const TableCalculator = ({ percent, setStart }: Props) => {
+  const [show, setShow] = useState(false);
   const [dot, setDot] = useState({ answer: "" });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDot({ ...dot, [e.target.name]: e.target.value });
@@ -60,11 +60,17 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
     // })
   }
 
+  if (localStorage.getItem("marginError")) {
+    var marginError = JSON.parse(localStorage.getItem("marginError"));
+  }
+  
   // Danh sách phép tính
   const calculationList = useSelector(
     (state: any) => state.calculation.calculations
   );
 
+    
+  const ref = useRef(null)
   // Phép tính option
 
   const optionCalculation = useSelector(
@@ -80,11 +86,12 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: "Lưu",
-        denyButtonText: `Không`,
+        denyButtonText: "Không",
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           if (!localStorage.getItem("user")) {
+            setShow(true)
           } else {
             UseAddRecord({
               userId: user.user._id,
@@ -93,7 +100,7 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
                 new Date(avgTime).getSeconds() +
                 ":" +
                 new Date(avgTime).getMilliseconds(),
-              error: marginOfError,
+              error: marginOfError ? marginOfError : marginError,
               questionType: Number(optionCalculation),
             });
             Swal.fire("Lưu kết quả thành công !!", "", "success");
@@ -294,25 +301,37 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
 
   useEffect(() => {
     if (removecommas(input) != 0) {
-      dispatch(
-        saveTotal({
-          calculator: Operations,
-          inputValue: input,
-          correctResult: sum,
-          marginOfError: percentFalse,
-          duration: duration,
-          time: time,
-        })
-      );
-      setInput("");
+        dispatch(
+            saveTotal({
+                calculator: Operations,
+                inputValue: input,
+                correctResult: sum,
+                marginOfError: percentFalse,
+                duration: duration,
+                time: time,
+            })
+        );
+        setInput("");
     }
-  }, [sum]);
-  console.log(input);
+}, [sum]);
+
+useEffect(() => {
+    if(calculation.length){
+        ref.current.focus()
+    }
+}, [ calculation.length]);
 
   // Đóng thông báo sai
   const close = () => {
     setShowTotal(false);
   };
+
+  // Đóng module
+
+  const clodeModule = () =>{
+    setShow(false)
+  }
+
 
   return (
     <div>
@@ -452,6 +471,7 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
                           value={null}
                           onKeyUp={handleKeyDown}
                           autoComplete="off"
+                          ref={ref}
                           // onInput={(event) => setInput(event.target.value)}
                           className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
                           onChange={(e) => handleChange(currencyMask(e))}
@@ -498,16 +518,16 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
 
       <hr className="py-4" />
       {/* Modal */}
-      <div className="relative">
+      <div className={show ? "relative" : "relative hidden"} >
         <div
           id="popup-modal"
           className={
-            "hidden grid place-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full bg-gray-500/40"
+            "grid place-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full bg-gray-500/40"
           }
         >
           <div className="relative p-4 w-full max-w-md h-full md:h-auto mx-auto">
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <button
+              <button onClick={() => clodeModule()}
                 type="button"
                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
                 data-modal-toggle="popup-modal"
@@ -544,21 +564,21 @@ const TableCalculator = ({ percent, setStart, inputRef }: Props) => {
                   ></path>
                 </svg>
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                  Are you sure you want to delete this product?
+                  Bạn chưa đăng nhập, bạn cần đăng nhập để lưu kết quả !
                 </h3>
                 <button
                   data-modal-toggle="popup-modal"
                   type="button"
                   className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                 >
-                  Yes, Im sure
+                  <Link href={"/auth/login"}>Đăng nhập</Link>
                 </button>
                 <button
                   data-modal-toggle="popup-modal"
                   type="button"
                   className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 >
-                  No, cancel
+                  <Link href={"/auth/register"}>Đăng ký</Link>
                 </button>
               </div>
             </div>
