@@ -1,10 +1,21 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import TableCalculator from "../TableCalculator";
+import { BiLogOut } from "react-icons/bi"
 
 type Props = {};
 
 const Header = (props: Props) => {
+  if (localStorage.getItem("user")) {
+    var users = JSON.parse(localStorage.getItem("user"));
+  }
+  const router = useRouter()
+  const handleLogout = () => {
+    if (localStorage.getItem("user")) {
+      localStorage.removeItem("user");
+      router.push("/")
+    }
+  };
   return (
     <div>
       <div className="bg-[#4192EC] flex justify-between items-center px-20 py-2">
@@ -20,14 +31,29 @@ const Header = (props: Props) => {
           </Link>
         </div>
         <div className="flex justify-center items-center">
-          <div className="text-white px-4 font-normal hover:underline">
-            <Link href="/auth/login">Login</Link>
-          </div>
-          <div>
-            <button className="h-8 bg-[#FECD00] px-11 rounded font-medium">
-              <Link href="/auth/register">Sign up for free</Link>
-            </button>
-          </div>
+          {users ? (
+            <div className="flex items-center">
+              <div className="text-white px-4 font-normal hover:underline">
+                <p>{users.user.email}</p>
+              </div>
+              <div className="text-white text-4xl mt-1">
+                <button onClick={() => handleLogout()}>
+                  <BiLogOut />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="text-white px-4 font-normal hover:underline">
+                <Link href="/auth/login">Login</Link>
+              </div>
+              <div>
+                <button className="h-8 bg-[#FECD00] px-11 rounded font-medium">
+                  <Link href="/auth/register">Sign up for free</Link>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
