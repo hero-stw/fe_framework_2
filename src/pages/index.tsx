@@ -12,8 +12,6 @@ const Home: NextPage = () => {
 
   const [percent, setPercent] = useState<number>(0);
 
-  const inputRef = useRef(0);
-
   return (
     <div>
       <Header />

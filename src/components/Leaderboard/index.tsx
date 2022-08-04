@@ -17,12 +17,19 @@ const LeaderBoard = (props: Props) => {
     const showSidebar = () => { setSidebar(!sidebar), setIcon(!icon) };
     const [users, setUsers] = useState<any>([]);
 
-    const { data: records } = useRecords();
+    const { UseLeaderboard } = useRecords();
 
-    const [option, setOption] = useState<number>(0);
+    const [option, setOption] = useState<number>(1);
 
-    const newUser = users.filter(item => item.questionType == option);
+    const leaderboard =  async () =>{
+        const data = await UseLeaderboard(Number(option));
+        setUsers(data);
+        console.log(data);
+        // const newUser = users.filter(item => item.questionType == Number(option));
+        // setUsers(newUser)
+    }
 
+    
     const sortUsers = (index) => {
 
         // if(index == 0) {
@@ -48,13 +55,8 @@ const LeaderBoard = (props: Props) => {
     }
 
     useEffect(() => {
-        const handleUsers = () => {
-            if (records) {
-                setUsers(records);
-            }
-        }
-        handleUsers();
-    }, [records])
+        leaderboard();
+    }, [option])
 
     return (
         <div>
@@ -77,7 +79,7 @@ const LeaderBoard = (props: Props) => {
                     </div>
 
                     {
-                        newUser.map((item, index) => (
+                        users.map((item, index) => (
                             <div key={item._id} className={style.result__value}>
                                 <div className="">
                                     {

@@ -12,6 +12,10 @@ export const listRecords = (url: string) => {
     return instance.get(url)
 }
 
+export const getLeadeboard = (type: number) => {
+    return instance.get("/records?type="+ type)
+}
+
 export const updateRecords = (id:string, data: any) => {
     return instance.put(`/records/${id}`, data)
 }
