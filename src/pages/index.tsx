@@ -15,21 +15,16 @@ const Home: NextPage = () => {
   return (
     <div>
       <Header />
-      <Count />
       <div className='flex justify-between m-auto w-[80em] py-16'>
         {/* Table Calculation */}
         <div className='w-full px-2'>
           {/* Prop % */}
-<<<<<<< Updated upstream
-          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent}/>
-=======
-          <CalculatorHeader  percent={percent} setPercent={setPercent} />
->>>>>>> Stashed changes
+          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent} />
           <TableCalculator percent={percent} />
           <Footer />
         </div>
         {/* Ranking */}
-        <div className='flex-initial w-64'>
+        <div className='flex-initial w-72'>
           <LeaderBoard />
         </div>
       </div>
