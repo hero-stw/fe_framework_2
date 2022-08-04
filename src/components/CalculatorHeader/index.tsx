@@ -7,6 +7,8 @@ import { random } from '@/commons'
 import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
 import Swal from "sweetalert2"
 import { resetTotal } from '@/store/slice/totalSlice'
+import { Steps, Hints } from 'intro.js-react';
+
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
@@ -14,6 +16,25 @@ type Props = {
 }
 
 const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
+
+    const steps = [
+        {
+          title: 'Xin chào',
+          intro: 'Chào mừng bạn đến với ứng dụng tính nhẩm !',
+        },
+        {
+          element: '#step1',
+          intro: 'Read the rules carefully',
+        },
+        {
+          element: '#step2',
+          intro: 'Choose your favorite types on calculation',
+        },
+      ];
+    
+    const onExit = () => {};
+
+
     const [icon, setIcon] = useState(true);
     const changeIcon = () => setIcon(!icon);
     const [showpercent, setShowpercent] = useState(true);
@@ -41,7 +62,9 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
         console.log("Start!");
     };
 
-    useEffect(() => { }, [])
+    useEffect(() => {
+      
+    },[])
 
     return (
         <div>
@@ -53,27 +76,28 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                             <h1>PRACTICE TOOL</h1>
                         </div>
                     </div>
-                    <div className={style.calculator__text}>
+                    <div className={style.calculator__text} id="step1">
                         Knock down five calculations as fast as possible but stay within the Ceiling Margin of Error!
                         If you overshoot the mark even once, youre out!!
+                           {/* <Steps enabled={true} steps={steps} initialStep={1} onExit={onExit} /> */}
                     </div>
                 </div>
                 <div className={style.calculator__option}>
                     <div className={style.calculator__option__item}>
                         <h3 className="small-title">Caculation Type</h3>
-                        <select name="" id="" className='outline-none' onChange={(event) => dispatch(saveAddition(event.target.value))}>
+                        <select name="" id="step2" className='outline-none'  onChange={(event) => dispatch(saveAddition(event.target.value))}>
                             <option value="1">Basic Operations (All)</option>
                             <option value="2">Additions (+)</option>
                             <option value="3">Subtractions (-)</option>
                             <option value="4">Multiplications (x)</option>
                             <option value="5">Divisions (÷)</option>
                         </select>
+                           {/* <Steps enabled={true} steps={steps} initialStep={2} onExit={onExit} /> */}
                         <h3 className="small-title">Ceiling Margin of Error</h3>
                         <label htmlFor="addend" >
                             {showpercent ? <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => setPercent(event.target.value)} /> :
                                 <input type="number" className="outline-none px-2" readOnly value={percent} id="margin" onInput={(event) => setPercent(event.target.value)} />
                             }
-
                         </label>
                     </div>
                 </div>

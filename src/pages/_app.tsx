@@ -5,6 +5,7 @@ import instance from '@/api/instance';
 import { persistor, store } from '@/store/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
+import 'intro.js/introjs.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return(
