@@ -49,12 +49,16 @@
 
 .result__username {
     font-weight: 700;
+    height: 30px;
+    width: 150px;
+    word-wrap: break-word;
 }
 
 .result__stat {
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .result__rank {
