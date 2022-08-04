@@ -15,6 +15,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Header />
+      <Count />
       <div className='flex justify-between m-auto w-[80em] py-16'>
         {/* Table Calculation */}
         <div className='w-full px-2'>
