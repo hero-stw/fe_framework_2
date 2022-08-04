@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from "@/components/CalculatorHeader/Calculator_header.module.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { randomCalculation, reset, resetCalculation, saveAddition, setInput } from '@/store/slice/calculationSlice'
+import { randomCalculation, resetCalculation, saveAddition, setInput } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
 import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
@@ -10,11 +10,10 @@ import { resetTotal } from '@/store/slice/totalSlice'
 type Props = {
     setCalculator: () => void,
     setPercent: () => void,
-    percent: number,
-    inputRef:any
+    percent: number
 }
 
-const CalculatorHeader = ({ setCalculator, setPercent, percent, inputRef }: Props) => {
+const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
     const [icon, setIcon] = useState(true);
     const changeIcon = () => setIcon(!icon);
     const [showpercent, setShowpercent] = useState(true);
@@ -42,11 +41,11 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent, inputRef }: Prop
         console.log("Start!");
     };
 
-    useEffect(()=>{},[])
+    useEffect(() => { }, [])
 
     return (
         <div>
-            <div className='flex justify-between w-full px-14'>
+            <div className='flex justify-between w-full'>
                 <div className={style.calculator__header}>
                     <div className={style.calculator__header__item}>
                         <div className={style.calculator__item__text}>
@@ -62,7 +61,7 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent, inputRef }: Prop
                 <div className={style.calculator__option}>
                     <div className={style.calculator__option__item}>
                         <h3 className="small-title">Caculation Type</h3>
-                        <select name="" id="" className='outline-none' onChange={(event) => dispatch(saveAddition(event.target.value)) }>
+                        <select name="" id="" className='outline-none' onChange={(event) => dispatch(saveAddition(event.target.value))}>
                             <option value="1">Basic Operations (All)</option>
                             <option value="2">Additions (+)</option>
                             <option value="3">Subtractions (-)</option>
@@ -80,23 +79,23 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent, inputRef }: Prop
                 </div>
                 <div className={style.calculator__button}>
                     {
-                        percent == 0 ? 
-                        <button onClick={() => Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Vui lòng nhập phần Ceiling Margin of Error!',
-                        })} >
-                            <img src={"https://mconsultingprep.com/wp-content/uploads/2021/07/play.png"} className='inline-block' />
-                        </button>
-                            :
-                            showButton ? 
-                            <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
-                                <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                        percent == 0 ?
+                            <button onClick={() => Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Vui lòng nhập phần Ceiling Margin of Error!',
+                            })} >
+                                <img src={"https://mconsultingprep.com/wp-content/uploads/2021/07/play.png"} className='inline-block' />
                             </button>
                             :
-                            <button onClick={() => {changeIcon(), dispatch(resetCalculation()), dispatch(resetTotal()), dispatch(setInput('0')), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
-                                <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
-                            </button>
+                            showButton ?
+                                <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
+                                    <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                                </button>
+                                :
+                                <button onClick={() => { changeIcon(), dispatch(resetCalculation()), dispatch(resetTotal()), dispatch(setInput('0')), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
+                                    <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                                </button>
                     }
                     {/* <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent) }} >
                         <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
