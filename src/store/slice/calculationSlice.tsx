@@ -1,89 +1,93 @@
-import { numLength, random } from "@/commons";
+import { calculation, numLength, random } from "@/commons";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ICalculationState {
-    calculation: string;
-    calculations: any[];
-    Operations: string;
-    a: number;
-    b: number,
-    addition:string,
-    input: string
+  calculation: string;
+  calculations: any[];
+  Operations: string;
+  addendOne: number;
+  addendTwo: number;
+  options: string;
+  input: string;
 }
 const initialState: ICalculationState = {
-    calculation: '',
-    calculations: [],
-    Operations: '',
-    a: 0,
-    b: 0,
-    addition:'1',
-    input: ''
+  calculation: "",
+  calculations: [],
+  Operations: "",
+  addendOne: 0,
+  addendTwo: 0,
+  options: "1",
+  input: "",
 };
 
-
-
-const calculation = (a: number, b: number, ch: string) => {
-    return a + " " + ch + " " + b + " = ?";
-}
 const equation = ["+", "-", "×", "÷"];
 export const calculationSlice = createSlice({
-    name: "calculation",
-    initialState,
-    // trong reducer chưa các actions mà cần dùng
-    // tham số state = initialState
-    reducers: {
-        randomCalculation: (state) => {
-            state.calculation = equation[random(0, 4)];
-            state.a = numLength(3, 9);
-            state.b = numLength(2, 8);
+  name: "calculation",
+  initialState,
+  // trong reducer chưa các actions mà cần dùng
+  // tham số state = initialState
+  reducers: {
+    randomCalculation: (state: ICalculationState) => {
+      state.calculation = equation[random(0, 4)];
+      state.addendOne = numLength(3, 9);
+      state.addendTwo = numLength(2, 8);
 
-            // Tất cả phép tính
-            if(state.addition == '1'){
-                if(state.a < state.b){
-                    state.Operations = calculation(state.b, state.a, state.calculation )
-                } else {
-                    state.Operations = calculation(state.a, state.b, state.calculation )
-                }
-            
-            // Phép tính cộng
-            }else if(state.addition == '2'){
-                state.Operations = calculation(state.a, state.b, "+" )
-            
-            // Phép tính trừ
-            }else if(state.addition == '3'){
-                if(state.a < state.b){
-                    state.Operations = calculation(state.b, state.a, "-" )
-                } else {
-                    state.Operations = calculation(state.a, state.b, "-" )
-                }
-                
-            // Phép tính nhân    
-            }else if(state.addition == '4'){
-                state.Operations = calculation(state.a, state.b, "×" )
-
-            // Phép tính chia  
-            }else if(state.addition == '5'){
-                if(state.a < state.b){
-                    state.Operations = calculation(state.b, state.a, "÷" )
-                } else {
-                    state.Operations = calculation(state.a, state.b, "÷" )
-                }
-            }
-           
-            state.calculations.push(state.Operations)
-        },
-        saveAddition: (state,actions) => {
-            state.addition = actions.payload
-        },
-        resetCalculation: (state) => {
-            state.calculations = []
-        },
-        setInput: (state, actions) => {
-            state.input = actions.payload
+      // Tất cả phép tính
+      if (state.options == "1") {
+        if (state.addendOne < state.addendTwo) {
+          state.Operations = calculation(
+            state.addendTwo,
+            state.addendOne,
+            state.calculation
+          );
+        } else {
+          state.Operations = calculation(
+            state.addendOne,
+            state.addendTwo,
+            state.calculation
+          );
         }
-    }
-})
 
-export const { randomCalculation, saveAddition, resetCalculation, setInput } = calculationSlice.actions
+        // Phép tính cộng
+      } else if (state.options == "2") {
+        state.Operations = calculation(state.addendOne, state.addendTwo, "+");
 
-export default calculationSlice.reducer
+        // Phép tính trừ
+      } else if (state.options == "3") {
+        if (state.addendOne < state.addendTwo) {
+          state.Operations = calculation(state.addendTwo, state.addendOne, "-");
+        } else {
+          state.Operations = calculation(state.addendOne, state.addendTwo, "-");
+        }
+
+        // Phép tính nhân
+      } else if (state.options == "4") {
+        state.Operations = calculation(state.addendOne, state.addendTwo, "×");
+
+        // Phép tính chia
+      } else if (state.options == "5") {
+        if (state.addendOne < state.addendTwo) {
+          state.Operations = calculation(state.addendTwo, state.addendOne, "÷");
+        } else {
+          state.Operations = calculation(state.addendOne, state.addendTwo, "÷");
+        }
+      }
+
+      state.calculations.push(state.Operations);
+    },
+    saveOptions: (state: ICalculationState, actions) => {
+      state.options = actions.payload;
+    },
+    resetCalculation: (state: ICalculationState) => {
+      state.calculations = [];
+    },
+    setInput: (state: ICalculationState, actions) => {
+      state.input = actions.payload;
+    },
+  },
+});
+
+export const { randomCalculation, saveOptions, resetCalculation, setInput } =
+  calculationSlice.actions;
+
+export default calculationSlice.reducer;

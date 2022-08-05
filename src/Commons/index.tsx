@@ -54,17 +54,23 @@ export const currencyMask = (e: React.ChangeEvent<HTMLInputElement>) => {
   let value = e.target.value;
   value = value.replace(/\D/g, "");
   value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  e.target.value = value
+  e.target.value = value;
   return e;
-}
+};
 
 export const removecommas = (e: string) => {
   return Number(e.replace(/,/g, ""));
-}
+};
 export const avgOfArray = (arr: number[]) => {
   const sum = arr.reduce((a, b) => a + b, 0);
   const avg = sum / arr.length || 0;
   return avg;
 };
 
+export const calculation = (a: number, b: number, ch: string) => {
+  return a + " " + ch + " " + b + " = ?";
+};
 
+export const showCalculator = (a: any, b: any, calculation: any) => {
+  return a + " " + calculation + " " + b + " = ?";
+};
