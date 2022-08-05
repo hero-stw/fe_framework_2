@@ -1,11 +1,22 @@
 import { useHistory } from '@/hooks/playingHistory'
-import Link from 'next/link';
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
-const HistoryPlay = (props: Props) => {
-    const { data } = useHistory();
+const HistoryDetail = (props: Props) => {
+    const { getHistory } = useHistory();
+    const [total, setTotal] = useState<any>([])
+    const router = useRouter()
+    console.log(router.query.id);
+    
+    useEffect(() => {
+        const history = async () =>{
+           const data =  await getHistory(router.query.id)
+           setTotal(data)
+        }
+        history()
+    },[])
 
     return (
         <div>
@@ -46,20 +57,19 @@ const HistoryPlay = (props: Props) => {
                                                                     <th scope="col">Calculator Type</th>
                                                                     <th scope="col">Margin Of Error</th>
                                                                     <th scope="col">Time</th>
-                                                                    <th scope="col">Detail</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {data?.map((item, index) => (
-                                                                    <tr key={index}>
+                                                                {total?.map((item,index) => (
+                                                                        <tr key={index}>
                                                                         <td>{index + 1}</td>
-                                                                        <td>{item.userName}</td>
+                                                                        <td>{}</td>
                                                                         <td>{item.calculator}</td>
                                                                         <td>{item.marginOfError}</td>
-                                                                        <td>{item.time}</td>
-                                                                        <td><Link href={`/history/${item._id}`}>detail</Link></td>
+                                                                        <td>alo</td>
                                                                     </tr>
-                                                                ))}
+                                                                    ))
+                                                                }
 
                                                             </tbody>
                                                         </table>
@@ -79,4 +89,4 @@ const HistoryPlay = (props: Props) => {
         </div>
     )
 }
-export default HistoryPlay
+export default HistoryDetail
