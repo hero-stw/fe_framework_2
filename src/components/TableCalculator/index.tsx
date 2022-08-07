@@ -24,13 +24,13 @@ import { isFulfilled } from "@reduxjs/toolkit";
 import { useHistory } from "@/hooks/playingHistory";
 
 type Props = {
-    percent: number;
     setStart: () => void;
 };
 
-const TableCalculator = ({ percent, setStart }: Props) => {
+const TableCalculator = ({ setStart }: Props) => {
     const [show, setShow] = useState(false);
     const [dot, setDot] = useState({ answer: "" });
+    const percent = useSelector((state: any) => state.result.percent)
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDot({ ...dot, [e.target.name]: e.target.value });
     };
