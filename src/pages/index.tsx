@@ -24,7 +24,7 @@ const Home: NextPage = () => {
           <Footer />
         </div>
         {/* Ranking */}
-        <div className='flex-initial w-72'>
+        <div className='flex-initial w-72 h-full'>
           <LeaderBoard />
         </div>
       </div>
