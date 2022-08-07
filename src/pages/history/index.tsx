@@ -1,5 +1,8 @@
+import Header from '@/components/Header'
 import { useHistory } from '@/hooks/playingHistory'
+import Link from 'next/link'
 import React from 'react'
+import { AiFillHome } from "react-icons/ai"
 
 type Props = {}
 
@@ -13,6 +16,7 @@ const HistoryPlay = (props: Props) => {
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" />
                 <main className="profile-page">
+                    <Header />
                     <section className="relative block min-h-[23em]">
                         <div className="absolute top-0 w-full h-full bg-center bg-cover" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80")' }}>
                             <span id="blackOverlay" className="w-full h-full absolute opacity-50 bg-black" />
@@ -27,45 +31,44 @@ const HistoryPlay = (props: Props) => {
                                             <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                                         </div>
                                     </div>
-
                                     <div>
-                                        <div className="flex justify-center items-center mt-28">
-                                            <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-                                                vanloc
-                                            </h3>
-                                        </div>
-                                        <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                                            <div className="flex flex-wrap justify-center">
-                                                <div className="w-full lg:w-9/12 px-4">
-                                                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-
-                                                        <table className="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope='col'></th>
-                                                                    <th scope="col">Calculator Type</th>
-                                                                    <th scope="col">Margin Of Error</th>
-                                                                    <th scope="col">Time</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {data?.map((item, index) => (
-                                                                    <tr key={index}>
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{item.userName}</td>
-                                                                        <td>{item.calculator}</td>
-                                                                        <td>{item.marginOfError}</td>
-                                                                        <td>{item.time}</td>
-                                                                    </tr>
-                                                                ))}
-
-                                                            </tbody>
-                                                        </table>
-
-                                                    </p>
+                                        {data?.map((item) => (
+                                            <>
+                                                <div className="flex justify-center mt-28">
+                                                    <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+                                                        {item.userName}
+                                                    </h3>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                <div className="border-t border-blueGray-200">
+                                                    <div className='py-5 flex justify-center'>
+                                                        <h1 className='text-2xl font-bold'>Playing History</h1>
+                                                    </div>
+                                                    <div className="flex justify-center items-center pl-96 my-6">
+                                                        <div>
+                                                            <div>Calculator Type: </div>
+                                                            <div>Margin of Error: </div>
+                                                            <div>Time: </div>
+                                                        </div>
+
+                                                        <div className=" flex justify-start w-full lg:w-9/12 px-4">
+                                                            {item.total.map((data) => (
+                                                                <div className='flex flex-col px-6'>
+                                                                    <div className='flex justify-center items-center'>
+                                                                        {data.calculator}
+                                                                    </div>
+                                                                    <div className='flex justify-center items-center'>
+                                                                        {data.marginOfError} %
+                                                                    </div>
+                                                                    <div className='flex justify-center items-center'>
+                                                                        {data.time} s
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +76,6 @@ const HistoryPlay = (props: Props) => {
                     </section>
                 </main>
             </div>
-
         </div>
     )
 }

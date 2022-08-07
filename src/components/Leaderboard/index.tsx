@@ -59,7 +59,7 @@ const LeaderBoard = (props: Props) => {
     }, [option])
 
     return (
-        <div>
+        <div className='h-full'>
             <div className={style.nav__menu__icon}>
                 <button onClick={showSidebar} >
                     {icon ?
