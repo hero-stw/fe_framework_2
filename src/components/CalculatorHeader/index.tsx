@@ -4,18 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { randomCalculation, resetCalculation, saveAddition, setInput } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
-import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
+import { saveInputValue, savePercent, saveStart } from '@/store/slice/resultSlice'
 import Swal from "sweetalert2"
 import { resetTotal } from '@/store/slice/totalSlice'
 type Props = {
-    setCalculator: () => void,
-    setPercent: () => void,
-    percent: number
+    setCalculator: () => void
 }
 
-const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
+const CalculatorHeader = ({ setCalculator }: Props) => {
     const [icon, setIcon] = useState(true);
     const changeIcon = () => setIcon(!icon);
+    const percent = useSelector((state: any) => state.result.percent)
     const [showpercent, setShowpercent] = useState(true);
     const [showButton, setShowButton] = useState(true);
     const dispatch = useDispatch();
@@ -70,8 +69,8 @@ const CalculatorHeader = ({ setCalculator, setPercent, percent }: Props) => {
                         </select>
                         <h3 className="small-title">Ceiling Margin of Error</h3>
                         <label htmlFor="addend" >
-                            {showpercent ? <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => setPercent(event.target.value)} /> :
-                                <input type="number" className="outline-none px-2" readOnly value={percent} id="margin" onInput={(event) => setPercent(event.target.value)} />
+                            {showpercent ? <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => dispatch(savePercent(event.target.value) )} /> :
+                                <input type="number" className="outline-none px-2" readOnly value={percent} id="margin" onInput={(event) => dispatch(savePercent(event.target.value))} />
                             }
 
                         </label>

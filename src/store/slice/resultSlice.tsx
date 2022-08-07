@@ -8,7 +8,8 @@ interface IResultState {
     inputValue: string,
     start: number,
     avgTime: number,
-    sumError:number
+    sumError:number,
+    percent: number
 }
 const initialState: IResultState = {
     correctResult: '',
@@ -17,7 +18,8 @@ const initialState: IResultState = {
     inputValue:'',
     start: 0,
     avgTime: 0,
-    sumError:0
+    sumError:0,
+    percent:0
 };
 
 export const resultSlice = createSlice({
@@ -44,10 +46,13 @@ export const resultSlice = createSlice({
         },
         saveSumError:  (state, actions) => {
             state.sumError = actions.payload
+        },
+        savePercent:  (state, actions) => {
+            state.percent = actions.payload
         }
     }
 })
 
-export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue, saveStart, saveAvgTime, saveSumError} = resultSlice.actions
+export const { saveCorrectResult, saveMarginOfError, saveDuration, saveInputValue, saveStart, saveAvgTime, saveSumError, savePercent} = resultSlice.actions
 
 export default resultSlice.reducer
