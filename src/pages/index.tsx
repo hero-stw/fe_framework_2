@@ -1,35 +1,33 @@
-import Header from '@/components/Header'
-import type { NextPage } from 'next'
-import Footer from '@/components/Footer';
-import LeaderBoard from '@/components/Leaderboard';
-import TableCalculator from '@/components/TableCalculator';
-import CalculatorHeader from '@/components/CalculatorHeader';
-import { useRef, useState } from 'react';
-import Count from './test/count';
+import Header from "@/components/Header";
+import type { NextPage } from "next";
+import Footer from "@/components/Footer";
+import LeaderBoard from "@/components/Leaderboard";
+import TableCalculator from "@/components/TableCalculator";
+import CalculatorHeader from "@/components/CalculatorHeader";
+import { useRef, useState } from "react";
+import Count from "./test/count";
+import { useSelector } from "react-redux";
 const Home: NextPage = () => {
-
-  const [calculator, setCalculator] = useState('');
-
-  const [percent, setPercent] = useState<number>(0);
+  const percent = useSelector((state: any) => state.result.percent);
 
   return (
     <div>
       <Header />
-      <div className='flex justify-between m-auto w-[80em] py-16'>
+      <div className="flex justify-between m-auto w-[80em] py-16">
         {/* Table Calculation */}
-        <div className='w-full px-2'>
+        <div className="w-full px-2">
           {/* Prop % */}
-          <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent} />
-          <TableCalculator percent={percent} />
+          <CalculatorHeader />
+          <TableCalculator />
           <Footer />
         </div>
         {/* Ranking */}
-        <div className='flex-initial w-72 h-full'>
+        <div className="flex-initial w-72 h-full">
           <LeaderBoard />
         </div>
       </div>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
 export default Home;
