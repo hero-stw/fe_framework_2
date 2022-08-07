@@ -4,34 +4,43 @@ import { useDispatch, useSelector } from 'react-redux'
 import { randomCalculation, resetCalculation, saveAddition, setInput } from '@/store/slice/calculationSlice'
 import { randomNumber } from '@/store/slice/numberSlice'
 import { random } from '@/commons'
-import { saveInputValue, saveStart } from '@/store/slice/resultSlice'
+import { saveInputValue, savePercent, saveStart } from '@/store/slice/resultSlice'
 import Swal from "sweetalert2"
 import { resetTotal } from '@/store/slice/totalSlice'
 type Props = {
-    setPercent: (e: number) => void,
-    percent: number
+    setCalculator: () => void
 }
 
-const CalculatorHeader = ({ setPercent, percent }: Props) => {
-    const [percentage, setPercentage] = useState<number>(percent)
+const CalculatorHeader = ({ setCalculator }: Props) => {
     const [icon, setIcon] = useState(true);
     const changeIcon = () => setIcon(!icon);
+    const percent = useSelector((state: any) => state.result.percent)
+    const [showpercent, setShowpercent] = useState(true);
     const [showButton, setShowButton] = useState(true);
     const dispatch = useDispatch();
+
+    const calculation = useSelector((state: any) => state.calculation.calculation);
+
+
+    const a = useSelector((state: any) => state.calculation.a)
+
+    const b = useSelector((state: any) => state.calculation.b)
+
+    const showCalculator = (a: any, b: any, calculation: any) => {
+        return a + " " + calculation + " " + b + " = ?";
+    }
+    const c = showCalculator(a, b, calculation)
+
+    if (a != 0 && b != 0) {
+        setCalculator(c)
+    }
 
     const Start = () => {
         dispatch(saveStart(Date.now()))
         console.log("Start!");
     };
 
-    const handlePercent = (e: any) => {
-        setPercentage(e.target.value);
-    }
-
-    useEffect(()=> {
-        percent = percentage;
-        setPercent(percentage);
-    }, [percentage])
+    useEffect(() => { }, [])
 
     return (
         <div>
@@ -60,7 +69,10 @@ const CalculatorHeader = ({ setPercent, percent }: Props) => {
                         </select>
                         <h3 className="small-title">Ceiling Margin of Error</h3>
                         <label htmlFor="addend" >
-                             <input type="number" className="outline-none px-2" value={percentage} min="5" id="margin" onInput={(event) => handlePercent(event)} /> 
+                            {showpercent ? <input type="number" className="outline-none px-2" value={percent == 0 ? "" : percent} id="margin" onInput={(event) => dispatch(savePercent(event.target.value) )} /> :
+                                <input type="number" className="outline-none px-2" readOnly value={percent} id="margin" onInput={(event) => dispatch(savePercent(event.target.value))} />
+                            }
+
                         </label>
                     </div>
                 </div>
@@ -76,14 +88,17 @@ const CalculatorHeader = ({ setPercent, percent }: Props) => {
                             </button>
                             :
                             showButton ?
-                                <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowButton(!showButton) }} >
+                                <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
                                     <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
                                 </button>
                                 :
-                                <button onClick={() => { changeIcon(), dispatch(resetCalculation()), dispatch(resetTotal()), dispatch(setInput('0')), Start(), setShowButton(!showButton) }} >
+                                <button onClick={() => { changeIcon(), dispatch(resetCalculation()), dispatch(resetTotal()), dispatch(setInput('0')), Start(), setShowpercent(!showpercent), setShowButton(!showButton) }} >
                                     <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
                                 </button>
                     }
+                    {/* <button onClick={() => { changeIcon(), dispatch(randomCalculation()), Start(), setShowpercent(!showpercent) }} >
+                        <img src={icon ? "https://mconsultingprep.com/wp-content/uploads/2021/07/play.png" : "https://mconsultingprep.com/wp-content/uploads/2021/07/reload-arrow.png"} className='inline-block' />
+                    </button>*/}
                 </div>
             </div>
         </div >
