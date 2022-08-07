@@ -6,6 +6,7 @@ import {
     l100,
     avgOfArray,
     removecommas,
+    msToHMS,
 } from "../../commons/index";
 import { randomCalculation, setInput } from "@/store/slice/calculationSlice";
 import { randomNumber } from "@/store/slice/numberSlice";
@@ -80,6 +81,9 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const Operations = useSelector((state: any) => state.calculation.Operations);
 
     useEffect(() => {
+        if(calculationList.length == 0){
+            return;
+        }
         if (calculationList.length > 6) {
             Swal.fire({
                 title: "Bạn có muốn lưu kết quả không ?",
@@ -96,10 +100,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                         UseAddRecord({
                             userId: user.user._id,
                             userName: user.user.email,
-                            duration:
-                                new Date(avgTime).getSeconds() +
-                                ":" +
-                                new Date(avgTime).getMilliseconds(),
+                            duration: new Date(avgTime).getSeconds() + "s" + new Date(avgTime).getMilliseconds(),
                             error: marginOfError ? marginOfError : marginError,
                             questionType: Number(optionCalculation),
                         });
@@ -112,6 +113,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             return;
         } else {
             setCalculation(calculationList);
+            return;
         }
     }, [calculationList]);
 
@@ -168,11 +170,11 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     // const [clock, setClock] = useState<string>("");
 
     const Lap = () => {
+        if(lap.length == 5){
+            return;
+        }
         if (lap.length <= 4) {
-            // Hiển thị thời gian đã làm dạng mm:ss:msms
-            console.log(start);
 
-            const lapText = new Date(Date.now() - start);
             // Tính toán thời gian đã làm
             const lapNum = Date.now() - start;
 
@@ -180,28 +182,22 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             setDuration(Date.now() - start);
             dispatch(saveDuration(lapNum));
             setLap([...lap, lapNum]);
+            setTime(new Date(lapNum).getSeconds() + "s" + new Date(lapNum).getMilliseconds());
             dispatch(saveStart(Date.now()));
-            setTime(lapText.getSeconds() + "s" + lapText.getMilliseconds());
-        } else {
-            console.log("Lap Array: ", lap);
-            console.log("Time average: ", Math.ceil(avgOfArray(lap)));
-        }
+        } 
     };
     const handleKeyDown = (event) => {
         if (
             (event.which >= 65 && event.which < 96) ||
             (event.which > 105 && event.which <= 255 && event.which != 190)
         ) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Vui lòng vui lòng không nhập gì khác ngoài số!",
-            });
+            event.target.value = 0
         }
         if (event.which >= 37 && event.which <= 40) return; // arrow
         if (event.which >= 48 && event.which <= 57)
             dispatch(setInput(event.target.value));
         if (event.keyCode === 13) {
+           
             Lap();
             if (s == "+") {
                 const c = a + b;
@@ -376,7 +372,10 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                 name="answer"
                                                 value={item.inputValue}
                                                 readOnly
-                                                className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
+                                                className={
+                                                    item.marginOfError > percent
+                                                    ? "h-10 border border-red-500 w-full rounded-xl outline-none text-center"
+                                                    : "h-10 border border-green-500 w-full rounded-xl outline-none text-center"}
                                             />
                                         </td>
                                         <td>
@@ -430,7 +429,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                     type="text"
                                                     name="answer"
                                                     value={input}
-                                                    onKeyUp={handleKeyDown}
+                                                    onKeyUp={(event) => handleKeyDown(event)}
                                                     autoComplete="off"
                                                     // onInput={(event) => setInput(event.target.value)}
                                                     className="h-10 border border-yellow-500 w-full rounded-xl outline-none text-center"
@@ -479,7 +478,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                                                     {data.marginOfError == 0
                                                         ? ""
                                                         : l100(roundTo2(data.marginOfError))}{" "}
-                                                    %
+                                                        %
                                                 </td>
                                                 <td
                                                     className="absolute"

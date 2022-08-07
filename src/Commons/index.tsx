@@ -67,4 +67,7 @@ export const avgOfArray = (arr: number[]) => {
   return avg;
 };
 
+export const timeFormat = (timeNumber:number) => {
+  return new Date(timeNumber).getSeconds() + "s" + new Date(timeNumber).getMilliseconds();
+}
 

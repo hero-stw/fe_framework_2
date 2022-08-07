@@ -19,7 +19,11 @@ const Home: NextPage = () => {
         {/* Table Calculation */}
         <div className='w-full px-2'>
           {/* Prop % */}
+<<<<<<< Updated upstream
           <CalculatorHeader calculator={calculator} setCalculator={setCalculator} percent={percent} setPercent={setPercent}/>
+=======
+          <CalculatorHeader  percent={percent} setPercent={setPercent} />
+>>>>>>> Stashed changes
           <TableCalculator percent={percent} />
           <Footer />
         </div>

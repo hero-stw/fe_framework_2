@@ -7,7 +7,7 @@ import goldmedal from "@/img/gold-medal.png";
 import silvermedal from "@/img/silver-medal.png";
 import bronzemedal from "@/img/bronze-medal.png";
 import LeaderboardType from '../LeaderboardType';
-import { roundTo2 } from "@/commons/index";
+import { msToHMS, roundTo2 } from "@/commons/index";
 
 type Props = {}
 
@@ -59,7 +59,7 @@ const LeaderBoard = (props: Props) => {
     }, [option])
 
     return (
-        <div>
+        <div className='h-full'>
             <div className={style.nav__menu__icon}>
                 <button onClick={showSidebar} >
                     {icon ?
@@ -86,9 +86,9 @@ const LeaderBoard = (props: Props) => {
                                         sortUsers(index)
                                     }
                                 </div>
-                                <div className="-mt-1">
+                                <div className="mt-2">
                                     <div className={style.result__username}>
-                                        {item.userName}
+                                        {item.userName.slice(0,-10)}
                                     </div>
                                     <div className={style.result__stat}>
                                         <div className={style.result__percent}>

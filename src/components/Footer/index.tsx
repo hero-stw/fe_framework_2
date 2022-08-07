@@ -1,6 +1,6 @@
-import { avgOfArray, roundTo2 } from '@/commons';
+import { avgOfArray, msToHMS, roundTo2, timeFormat } from '@/commons';
 import { saveAvgTime } from '@/store/slice/resultSlice';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { saveSumError } from "@/store/slice/resultSlice";
 import style from "./Footer.module.css";
@@ -19,32 +19,26 @@ const Footer = (props: Props) => {
         setIsActive(false)
     }
 
-    const marginOffError = useSelector((state: any) => state.total.total);
-    let sum = 0;
-    let save = 0
+    const total = useSelector((state: any) => state.total.total);
+    var sum = 0;
+    var save = 0
     const timelap = useSelector((state: any) => state.result.duration);
-
+    
     const dispatch = useDispatch();
 
-    marginOffError.map((item: any, index) => {
-        index += 1
-        sum += item.marginOfError
-        if (index == 5) {
-            sum /= 5
+    const avgMoe = () =>{
+        total.forEach(element => {
+            sum += Number(element.marginOfError);
+        });
+            localStorage.setItem("marginError",JSON.stringify(sum))
             save = avgOfArray(timelap)
             dispatch(saveAvgTime(save))
-            localStorage.setItem("marginError",JSON.stringify(sum))
-            console.log("sum",sum);
-        } else  {
-            sum = 0
-        }
+        return sum / 5;
     }
-    )
-    
-    
-    dispatch(saveSumError(sum));
 
-    
+    total.length == 5 && avgMoe();
+
+    dispatch(saveSumError(sum));
 
     return (
         <>
@@ -79,7 +73,7 @@ const Footer = (props: Props) => {
                         {roundTo2(sum)}%
                     </div>
                     <div className='text-xl font-bold text-[#4092ed]'>
-                        {save}
+                        {timeFormat(save)}
                     </div>
                 </div>
             </div>
