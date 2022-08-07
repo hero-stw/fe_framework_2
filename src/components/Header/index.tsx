@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiLogOut } from "react-icons/bi"
+import { AiOutlineHistory } from "react-icons/ai"
 
 type Props = {};
 
@@ -33,10 +34,13 @@ const Header = (props: Props) => {
         <div className="flex justify-center items-center">
           {users ? (
             <div className="flex items-center">
-              <div className="text-white px-4 font-normal hover:underline">
+              <div className="text-white px-4 font-normal cursor-pointer">
                 <p>{users.user.email}</p>
               </div>
-              <div className="text-white text-4xl mt-1">
+              <div className="text-white text-2xl cursor-pointer hover:text-red-300">
+                <Link href="/history"><AiOutlineHistory /></Link>
+              </div>
+              <div className="text-white text-2xl mt-1 hover:text-red-300 ml-3">
                 <button onClick={() => handleLogout()}>
                   <BiLogOut />
                 </button>
@@ -56,7 +60,7 @@ const Header = (props: Props) => {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

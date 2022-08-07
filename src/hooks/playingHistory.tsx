@@ -1,4 +1,4 @@
-import { addHistory } from "@/api/playingHistory";
+import { addHistory, historyDetail } from "@/api/playingHistory";
 import useSWR, {useSWRConfig} from "swr";
 
 export const useHistory = () =>{
@@ -10,10 +10,16 @@ export const useHistory = () =>{
         const newHistory = await addHistory(history);
         mutate([...data, newHistory]);
     }
+
+    const getHistory = async(_id: string | string[]) => {
+        const newHistory = await historyDetail(_id);
+        return newHistory
+    }
     
     return {
         data,
         error,
-        History
+        History,
+        getHistory
     }
 }
