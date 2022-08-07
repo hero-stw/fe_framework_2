@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useRecords } from "@/hooks/records";
 import { currencyMask } from "@/commons/index"
 import { isFulfilled } from "@reduxjs/toolkit";
+import { useHistory } from "@/hooks/playingHistory";
 
 type Props = {
     percent: number;
@@ -37,6 +38,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
 
     const [showTotal, setShowTotal] = useState(true);
 
+    let history = [];
+
     const marginOfError = useSelector((state: any) => state.result.sumError);
 
     const input = useSelector((state: any) => state.calculation.input);
@@ -44,6 +47,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     const avgTime = useSelector((state: any) => state.result.avgTime);
 
     const { UseAddRecord } = useRecords();
+
+    const { History } = useHistory();
 
     // Get user
 
@@ -78,7 +83,8 @@ const TableCalculator = ({ percent, setStart }: Props) => {
     );
 
     const Operations = useSelector((state: any) => state.calculation.Operations);
-
+        
+        
     useEffect(() => {
         if (calculationList.length > 6) {
             Swal.fire({
@@ -103,6 +109,62 @@ const TableCalculator = ({ percent, setStart }: Props) => {
                             error: marginOfError ? marginOfError : marginError,
                             questionType: Number(optionCalculation),
                         });
+                        total.map((item) => {
+                            history.push({
+                                calculator: item.calculator,
+                                inputValue: item.inputValue,
+                                correctResult: item.correctResult,
+                                marginOfError: item.marginOfError,
+                                time: item.time
+                            })
+                        })
+                        History({
+                            userId: user.user._id,
+                            userName: user.user.email,
+                            duration:
+                                new Date(avgTime).getSeconds() +
+                                "s" +
+                                new Date(avgTime).getMilliseconds(),
+                            error: marginOfError ? marginOfError : marginError,
+                            questionType: Number(optionCalculation),
+                            total: [
+                                {
+                                    calculator: total[0].calculator,
+                                    inputValue: total[0].inputValue,
+                                    correctResult: total[0].correctResult,
+                                    marginOfError: total[0].marginOfError,
+                                    time: total[0].time
+                                },
+                                {
+                                    calculator: total[1].calculator,
+                                    inputValue: total[1].inputValue,
+                                    correctResult: total[1].correctResult,
+                                    marginOfError: total[1].marginOfError,
+                                    time: total[1].time
+                                },
+                                {
+                                    calculator: total[2].calculator,
+                                    inputValue: total[2].inputValue,
+                                    correctResult: total[2].correctResult,
+                                    marginOfError: total[2].marginOfError,
+                                    time: total[2].time
+                                },
+                                {
+                                    calculator: total[3].calculator,
+                                    inputValue: total[3].inputValue,
+                                    correctResult: total[3].correctResult,
+                                    marginOfError: total[3].marginOfError,
+                                    time: total[3].time
+                                },
+                                {
+                                    calculator: total[4].calculator,
+                                    inputValue: total[4].inputValue,
+                                    correctResult: total[4].correctResult,
+                                    marginOfError: total[4].marginOfError,
+                                    time: total[4].time
+                                }
+                            ]
+                        })
                         Swal.fire("Lưu kết quả thành công !!", "", "success");
                     }
                 } else if (result.isDenied) {
@@ -114,6 +176,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
             setCalculation(calculationList);
         }
     }, [calculationList]);
+
 
     const dispatch = useDispatch();
 
@@ -130,6 +193,7 @@ const TableCalculator = ({ percent, setStart }: Props) => {
 
     const total = useSelector((state: any) => state.total.total);
 
+    console.log(total);
     // input store
     // const inputValue = useSelector((state:any) => state.result.inputValue)
 

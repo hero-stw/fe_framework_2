@@ -1,11 +1,22 @@
-import Header from '@/components/Header'
 import { useHistory } from '@/hooks/playingHistory'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
-const HistoryPlay = (props: Props) => {
-    const { data } = useHistory();
+const HistoryDetail = (props: Props) => {
+    const { getHistory } = useHistory();
+    const [total, setTotal] = useState<any>([])
+    const router = useRouter()
+    console.log(router.query.id);
+    
+    useEffect(() => {
+        const history = async () =>{
+           const data =  await getHistory(router.query.id)
+           setTotal(data)
+        }
+        history()
+    },[])
 
     return (
         <div>
@@ -13,7 +24,6 @@ const HistoryPlay = (props: Props) => {
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" />
                 <main className="profile-page">
-                    <Header />
                     <section className="relative block min-h-[23em]">
                         <div className="absolute top-0 w-full h-full bg-center bg-cover" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80")' }}>
                             <span id="blackOverlay" className="w-full h-full absolute opacity-50 bg-black" />
@@ -28,6 +38,7 @@ const HistoryPlay = (props: Props) => {
                                             <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                                         </div>
                                     </div>
+
                                     <div>
                                         <div className="flex justify-center items-center mt-28">
                                             <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
@@ -49,15 +60,16 @@ const HistoryPlay = (props: Props) => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {data?.map((item, index) => (
-                                                                    <tr key={index}>
+                                                                {total?.map((item,index) => (
+                                                                        <tr key={index}>
                                                                         <td>{index + 1}</td>
-                                                                        <td>{item.userName}</td>
+                                                                        <td>{}</td>
                                                                         <td>{item.calculator}</td>
                                                                         <td>{item.marginOfError}</td>
-                                                                        <td>{item.time}</td>
+                                                                        <td>alo</td>
                                                                     </tr>
-                                                                ))}
+                                                                    ))
+                                                                }
 
                                                             </tbody>
                                                         </table>
@@ -73,7 +85,8 @@ const HistoryPlay = (props: Props) => {
                     </section>
                 </main>
             </div>
+
         </div>
     )
 }
-export default HistoryPlay
+export default HistoryDetail
