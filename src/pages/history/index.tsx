@@ -2,14 +2,14 @@ import Header from '@/components/Header'
 import { useHistory } from '@/hooks/playingHistory'
 import Link from 'next/link'
 import React from 'react'
-import { AiFillHome } from "react-icons/ai"
 
 type Props = {}
 
 const HistoryPlay = (props: Props) => {
-    const { data } = useHistory();
-    console.log(data);
 
+    const idUser = JSON.parse(localStorage.getItem("user"));
+    console.log(idUser.user._id);
+    const { data } = useHistory();
     return (
         <div>
             <div>
@@ -32,43 +32,58 @@ const HistoryPlay = (props: Props) => {
                                         </div>
                                     </div>
                                     <div>
-                                        {data?.map((item) => (
-                                            <>
-                                                <div className="flex justify-center mt-28">
-                                                    <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-                                                        {item.userName}
-                                                    </h3>
-                                                </div>
-                                                <div className="border-t border-blueGray-200">
-                                                    <div className='py-5 flex justify-center'>
-                                                        <h1 className='text-2xl font-bold'>Playing History</h1>
-                                                    </div>
-                                                    <div className="flex justify-center items-center pl-96 my-6">
-                                                        <div>
-                                                            <div>Calculator Type: </div>
-                                                            <div>Margin of Error: </div>
-                                                            <div>Time: </div>
-                                                        </div>
 
-                                                        <div className=" flex justify-start w-full lg:w-9/12 px-4">
-                                                            {item.total.map((data) => (
-                                                                <div className='flex flex-col px-6'>
-                                                                    <div className='flex justify-center items-center'>
-                                                                        {data.calculator}
-                                                                    </div>
-                                                                    <div className='flex justify-center items-center'>
-                                                                        {data.marginOfError} %
-                                                                    </div>
-                                                                    <div className='flex justify-center items-center'>
-                                                                        {data.time} s
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
+                                        <div className="flex justify-center items-center mt-28">
+                                            <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+                                                vanloc
+                                            </h3>
+                                        </div>
+                                        <div className=" border-t border-blueGray-200 text-center">
+                                            <div className="flex flex-wrap justify-center">
+                                                <div className="w-full lg:w-9/12 px-4">
+                                                    <h3 className="text-3xl font-semibold leading-normal py-8 text-blueGray-700">
+                                                        Playing History
+                                                    </h3>
+                                                    <div className="overflow-x-auto relative mb-20">
+                                                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                            <thead className="text-xs text-white-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
+                                                                <tr>
+                                                                    <th scope="col" className="py-3 px-6">
+                                                                        Margin Of Error
+                                                                    </th>
+                                                                    <th scope="col" className="py-3 px-6">
+                                                                        Duration
+                                                                    </th>
+                                                                    <th scope="col" className="py-3 px-6 text-center">
+                                                                        Result
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {data?.map((item) => {
+                                                                    if (item.userId == idUser.user._id)
+                                                                        return (
+                                                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                                                <td className="py-4 px-6">
+                                                                                    {item.error} %
+                                                                                </td>
+                                                                                <td className="py-4 px-6">
+                                                                                    {item.duration} s
+                                                                                </td>
+                                                                                <td className="py-4 px-6 text-center">
+                                                                                    <button className='bg-blue-700 w-20 h-8 text-white rounded-full'>
+                                                                                        <Link href={`/history/${item._id}`}>Detail</Link>
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                })}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                            </>
-                                        ))}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +91,7 @@ const HistoryPlay = (props: Props) => {
                     </section>
                 </main>
             </div>
-        </div>
+        </div >
     )
 }
 export default HistoryPlay
